@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   app: {
     head: {
-      title: 'Baksey Academy',
+      title: 'Nuxt 3 Starter Template',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,12 +12,12 @@ export default defineNuxtConfig({
           hid: 'description',
           name: 'description',
           content:
-            "Business Cambodia is Cambodia's most popular business website. This website aims to provide Cambodian young entrepreneur most useful resources for starting and leading their business or enterprise.",
+            "Nuxt 3 Starter Template with Tailwind CSS, TypeScript, ESLint, Prettier, PostCSS, and Netlify Adapter.",
         },
         {
           name: 'keywords',
           content:
-            'baksey-academy, baksey acedemy, business cambodia learning, bc learning, baksey learning, khmer learning platform, khmer learning website,',
+            'starter template,',
         },
       ],
       link: [
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400;700;900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap',
         },
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/x-icon', href: '/icon-green.svg' },
       ],
     },
   },
