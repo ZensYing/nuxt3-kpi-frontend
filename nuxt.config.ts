@@ -41,4 +41,5 @@ export default defineNuxtConfig({
       API_BASE_URL: process.env.API_BASE_URL,
     },
   },
+  plugins: ['~/plugins/iconify.js']
 });
