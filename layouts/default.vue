@@ -1,5 +1,9 @@
 <template>
-  <slot />
+  <div>
+    <LayoutsNavbar />
+    <NuxtPage />
+
+  </div>
 </template>
 
 <script setup lang="ts"></script>

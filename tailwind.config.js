@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     './components/**/*.{js,vue,ts}',
     './layouts/**/*.vue',
@@ -10,7 +11,12 @@ export default {
     './node_modules/flowbite/**/*.{js,ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+          light: '#ffffff', // For light mode (default)
+          dark: '#1f2937', // Equivalent to bg-gray-800
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin')
