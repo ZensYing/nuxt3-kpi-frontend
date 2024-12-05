@@ -1,11 +1,11 @@
 // composables/useI18nConfig.ts
 export const useI18nConfig = () => {
     // Retrieve the saved locale from localStorage or default to 'km'
-    const savedLocale = process.client ? localStorage.getItem('locale') || 'km' : 'km';
+    const savedLocale = process.client ? localStorage.getItem('locale') || 'en' : 'en';
   
     return {
       strategy: 'prefix_and_default',
-      defaultLocale: 'km',
+      defaultLocale: 'en',
       locales: [
         { code: 'en', name: 'English', iso: 'en-US' },
         { code: 'km', name: 'Khmer', iso: 'km-KH' },
