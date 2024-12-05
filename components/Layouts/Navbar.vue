@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-white dark:bg-dark dark:text-white py-4 shadow-md px-2 sticky top-0 z-[20]">
+    <nav class="bg-light dark:bg-dark dark:text-white py-4 shadow-md px-2 sticky top-0 z-[20]">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <button v-if="!isHomePage" @click="goBack"
@@ -20,15 +20,36 @@
             </div>
             <div class="flex space-x-3">
                 <button type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example"
-                    data-drawer-backdrop="true" aria-controls="drawer-example" class="md:hidden">
+                    data-drawer-backdrop="true" aria-controls="drawer-example" class="md:hiddens">
                     <Icon icon="ci:hamburger-md" class="w-6 h-6" />
                 </button>
                 <button @click="toggleTheme" class="p-2 rounded focus:outline-none">
                     <Icon :icon="theme === 'dark' ? 'mdi:weather-night' : 'mdi:weather-sunny'" class="w-6 h-6" />
                 </button>
+                <div class="relative dropdown-container">
+                    <button @click="toggleDropdown"
+                        class="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none">
+                        {{ locale === 'en' ? 'English' : 'Khmer' }}
+                        <Icon icon="mdi:chevron-down" class="w-5 h-5 ml-2" />
+                    </button>
+                    <div v-if="dropdownOpen"
+                        class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600">
+                        <button @click="switchLanguage('en')" :class="[
+                            'block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600',
+                            locale === 'en' ? 'bg-gray-100 dark:bg-gray-600' : ''
+                        ]">
+                            English
+                        </button>
+                        <button @click="switchLanguage('km')" :class="[
+                            'block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600',
+                            locale === 'km' ? 'bg-gray-100 dark:bg-gray-600' : ''
+                        ]">
+                            Khmer
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-
     </nav>
     <LayoutsDrawer :logout="logout" :openLoginDialog="openLoginDialog" />
 
@@ -45,6 +66,46 @@ const { theme, toggleTheme } = useTheme();
 
 const isHomePage = computed(() => route.name === 'index');
 
+import { useI18n } from 'vue-i18n';
+
+
+const { locale } = useI18n();
+// Function to switch languages
+const switchLanguage = (lang: string) => {
+  // Change locale using vue-i18n
+  locale.value = lang;  // <-- Corrected here, locale is now reactive, so we can directly change it
+  // Save to localStorage for persistence
+  if (process.client) {
+    localStorage.setItem('locale', lang);
+  }
+};
+
+const dropdownOpen = ref(false);
+
+const toggleDropdown = () => {
+    dropdownOpen.value = !dropdownOpen.value;
+};
+
+const closeDropdown = () => {
+    dropdownOpen.value = false;
+};
+const handleClickOutside = (event: MouseEvent) => {
+    const dropdown = document.querySelector('.dropdown-container'); // Replace with your dropdown container class
+    if (dropdown && !dropdown.contains(event.target as Node)) {
+        closeDropdown();
+    }
+};
+
+// Add event listener to close dropdown on outside click
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+// Clean up event listener when the component is destroyed
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
+
 const goBack = () => {
     router.back();
 };
@@ -60,8 +121,6 @@ const logout = () => {
 
 
 <style scoped>
-
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s ease;
