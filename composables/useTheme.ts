@@ -1,27 +1,30 @@
-export const useTheme = () => {
-    const theme = useState<string>('theme', () => {
-      if (process.client) {
-        return localStorage.getItem('theme') || 'light';
-      }
-      return 'light';
-    });
-  
-    const toggleTheme = () => {
-      theme.value = theme.value === 'dark' ? 'light' : 'dark';
-      if (process.client) {
-        const html = document.documentElement;
-        if (theme.value === 'dark') {
-          html.classList.add('dark');
-        } else {
-          html.classList.remove('dark');
-        }
-        localStorage.setItem('theme', theme.value);
-      }
-    };
-  
-    return {
-      theme,
-      toggleTheme,
-    };
+import { ref, onMounted } from 'vue';
+
+export default function useTheme() {
+  const theme = ref('light');
+
+  const setTheme = (newTheme: string) => {
+    theme.value = newTheme;
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(newTheme);
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('theme', newTheme);
+    }
   };
-  
+
+  const toggleTheme = () => {
+    setTheme(theme.value === 'dark' ? 'light' : 'dark');
+  };
+
+  // Initialize theme only for client-side updates
+  onMounted(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+  });
+
+  return {
+    theme,
+    toggleTheme,
+  };
+}

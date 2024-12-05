@@ -33,17 +33,16 @@
     <LayoutsDrawer :logout="logout" :openLoginDialog="openLoginDialog" />
 
 </template>
-
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useRouter, useRoute } from 'vue-router';
 import LayoutsDrawer from '~/components/Layouts/Drawer.vue';
-import { useTheme } from '~/composables/useTheme';
+import useTheme from '~/composables/useTheme';
 
 const router = useRouter();
 const route = useRoute();
 const { theme, toggleTheme } = useTheme();
+
 const isHomePage = computed(() => route.name === 'index');
 
 const goBack = () => {
@@ -58,6 +57,7 @@ const logout = () => {
     console.log('Logged out');
 };
 </script>
+
 
 <style scoped>
 .fade-enter-active,
