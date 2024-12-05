@@ -14,7 +14,7 @@ export default {
     extend: {
       colors: {
           light: '#ffffff', // For light mode (default)
-          dark: '#1f2937', // Equivalent to bg-gray-800
+          dark: '#111827', // Equivalent to bg-gray-900
       },
     },
   },

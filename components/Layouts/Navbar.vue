@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-white dark:bg-gray-800 dark:text-white py-4 shadow-md px-2 sticky top-0 z-[20]">
+    <nav class="bg-white dark:bg-dark dark:text-white py-4 shadow-md px-2 sticky top-0 z-[20]">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <button v-if="!isHomePage" @click="goBack"
@@ -20,7 +20,7 @@
             </div>
             <div class="flex space-x-3">
                 <button type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example"
-                    data-drawer-backdrop="true" aria-controls="drawer-example">
+                    data-drawer-backdrop="true" aria-controls="drawer-example" class="md:hidden">
                     <Icon icon="ci:hamburger-md" class="w-6 h-6" />
                 </button>
                 <button @click="toggleTheme" class="p-2 rounded focus:outline-none">
@@ -60,6 +60,8 @@ const logout = () => {
 
 
 <style scoped>
+
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s ease;

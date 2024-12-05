@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div class="overflow-hidden dark:bg-dark">
     <LayoutsNavbar />
     <NuxtPage />
-
   </div>
 </template>
 
