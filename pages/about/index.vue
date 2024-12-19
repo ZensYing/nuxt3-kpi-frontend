@@ -23,13 +23,13 @@
               class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl"
               ref="heroTitle"
             >
-              John Doe
+              SOUN Soratha
             </h1>
             <p 
               class="text-2xl md:text-3xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-xl"
               ref="heroSubtitle"
             >
-              Full Stack Developer | Creative Problem Solver | Tech Innovator
+              Full Stack Web Developer 
             </p>
           </motion-reveal>
         <CardsHero />
