@@ -6,21 +6,21 @@ import anime from "animejs";
 const achievementsList = [
   {
     metric: "Projects",
-    value: 100,
+    value: 20,
     postfix: "+",
   },
-  {
-    prefix: "~",
-    metric: "Users",
-    value: 100000,
-  },
+  // {
+  //   prefix: "~",
+  //   metric: "Users",
+  //   value: 100000,
+  // },
   {
     metric: "Awards",
-    value: 7,
+    value: 2,
   },
   {
     metric: "Years",
-    value: 5,
+    value: 3,
   },
 ];
 
@@ -57,7 +57,7 @@ onMounted(() => {
         data-aos="fade-up"
       >
         <h2 class="text-white text-4xl font-bold flex flex-row">
-          {{ achievement.prefix }}
+          <!-- {{ achievement.prefix }} -->
           <span>{{ animatedValues[index].value }}</span>
           {{ achievement.postfix }}
         </h2>

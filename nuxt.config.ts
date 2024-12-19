@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   app: {
     head: {
-      title: 'Nuxt 3 Starter Template',
+      title: 'Soun Sorahta - Full Stack Developer',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
           hid: 'description',
           name: 'description',
           content:
-            "Nuxt 3 Starter Template with Tailwind CSS, TypeScript, ESLint, Prettier, PostCSS, and Netlify Adapter.",
+            "Soun Sorahta - Full Stack Developer, Web Developer, Software Developer, Programmer, and Freelancer based in Phnom Penh, Cambodia.",
         },
         {
           name: 'keywords',
