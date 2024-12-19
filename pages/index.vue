@@ -1,12 +1,17 @@
 <template>
-  <div class="bg-white h-screen text-black dark:bg-dark dark:text-white ">
+  <div class="bg-white  text-black dark:bg-dark dark:text-white ">
     <IndexHero />
+    <PageIndexSkills />
+    <!-- Timeline Section -->
+
   </div>
   
 
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
 
 <style scoped>
 

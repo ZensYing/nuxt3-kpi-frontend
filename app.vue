@@ -16,6 +16,9 @@ useHead({
           try {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.classList.add(savedTheme);
+
+            const savedLocale = localStorage.getItem('locale') || 'en';
+            document.documentElement.setAttribute('lang', savedLocale);
           } catch (e) {
             console.warn('Error applying theme:', e);
           }

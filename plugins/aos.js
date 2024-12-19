@@ -3,6 +3,9 @@ import 'aos/dist/aos.css';
 
 export default defineNuxtPlugin((nuxtApp) => {
   if (import.meta.client) {
-    AOS.init();
+    // add dureation
+    AOS.init({
+      duration: 1500,
+    });
   }
 });

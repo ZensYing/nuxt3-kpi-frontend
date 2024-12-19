@@ -1,7 +1,7 @@
 <template>
-  <div class="overflow-hidden dark:bg-dark">
+  <div class="overflow-hidden  dark:bg-dark">
     <LayoutsNavbar />
-    <NuxtPage />
+    <slot />
   </div>
 </template>
 

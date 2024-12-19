@@ -16,6 +16,7 @@ export default {
           light: '#ffffff', // For light mode (default)
           dark: '#111827', // Equivalent to bg-gray-900
       },
+      scrollBehavior : ['smooth']
     },
   },
   plugins: [
