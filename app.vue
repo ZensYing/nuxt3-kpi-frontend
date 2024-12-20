@@ -1,12 +1,18 @@
 <template>
+
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { useHead } from '#imports'; // Use Nuxt's built-in `useHead` composable
 
+import { useHead } from '#imports'; // Use Nuxt's built-in `useHead` composable
+import { inject } from '@vercel/analytics';
+
+onMounted(() => {
+  inject();
+});
 // Add an inline script to set the theme before styles load
 useHead({
   script: [
