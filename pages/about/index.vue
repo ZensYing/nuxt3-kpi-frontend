@@ -11,10 +11,11 @@
           ref="heroBackground" 
           class="absolute inset-0 bg-cover bg-center transform transition-transform duration-500"
           :style="{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1522252234503-e356532cafd5)',
             transform: `translateY(${heroParallaxOffset}px)`
           }"
-        ></div>
+        >
+        <BackgroundAnimationParticleBackground />
+      </div>
         
         <div class="relative z-10 text-center px-4">
          <div class="flex justify-between max-md:flex-col">
@@ -69,11 +70,11 @@
             ref="aboutImage"
             class="relative group perspective-1000 transform transition-all duration-700"
           >
-            <div class="rounded-2xl overflow-hidden shadow-2xl transform rotate-y-10 group-hover:rotate-y-0 transition-transform duration-500">
+            <div class="rounded-2xl overflow-hidden shadow-2xl transform rotate-y-10 group-hover:rotate-y-0 transition-transform duration-500 border-white border-2">
               <img 
-                src="https://images.unsplash.com/photo-1507813860472-e9fdInputlexity-900"
+                src="/about-section-2.gif"
                 alt="Profile"
-                class="w-full h-auto object-cover"
+                class="w-full  h-auto object-cover"
               />
             </div>
           </div>
@@ -81,11 +82,12 @@
 
 
         <motion-reveal direction="right">
-          <!-- <div class="css-blurry-gradient-blue"></div>
-          <div class="css-blurry-gradient-green"></div> -->
+          <div class="css-blurry-gradient-blue"></div>
+          <!-- <div class="css-blurry-gradient-green"></div> -->
+          <!-- <BackgroundAnimationAnimate /> -->
 
           <div>
-            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">
               About Me
             </h2>
             <div class="space-y-6 text-gray-700 leading-relaxed">
