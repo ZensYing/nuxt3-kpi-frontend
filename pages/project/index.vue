@@ -1,33 +1,24 @@
 <!-- pages/projects.vue -->
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <BackgroundAnimationAnimate />
+    <div class="min-h-screen bg-light dark:bg-dark">
       <!-- Hero Section -->
-      <!-- <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-          <div class="grid grid-cols-8 grid-rows-8 gap-2 h-full opacity-10">
-            <div v-for="i in 64" :key="i" 
-                 class="bg-white/20 rounded-lg transform transition-transform duration-700"
-                 :class="hoverEffect ? 'hover:scale-150' : ''"
-                 @mouseover="triggerHoverEffect(i)">
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative z-10 text-center px-4" v-motion="fadeInUp">
+      <section class="relative h-96 flex items-center justify-center overflow-hidden">
+        <div class="relative z-10 text-center px-4"data-aos="fade-up">
           <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
-            My Projects
+            My Projects I have build
           </h1>
           <p class="text-xl text-gray-300 max-w-2xl mx-auto">
             Explore my portfolio of completed projects, showcasing innovative solutions and creative designs.
           </p>
         </div>
         
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="absolute bottom-10   left-1/2 transform -translate-x-1/2 animate-bounce" >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-aos="fade-up"> 
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
           </svg>
         </div>
-      </section> -->
+      </section>
   
       <!-- Projects Grid -->
       <section class="container mx-auto px-4 py-20">
@@ -39,19 +30,21 @@
                :data-aos-delay="index * 100">
             
             <!-- Project Image -->
-            <div class="relative h-64 overflow-hidden">
-              <img :src="project.image" :alt="project.title" 
-                   class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"/>
+            <div class="relative h-72 overflow-hidden flex items-center justify-center">
+              <img :src="project.image" :alt="project.title"  
+                   class="w-96 object-cover transform transition-transform duration-700 group-hover:scale-110"/>
               <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
             </div>
             
             <!-- Project Info -->
             <div class="p-6">
-              <h3 class="text-2xl font-bold text-white mb-2">{{ project.title }}</h3>
-              <p class="text-gray-400 mb-4">{{ project.description }}</p>
+              <div class="flex items-center  space-x-3">
+                <h3 class="text-2xl font-bold text-white ">{{ project.title }}</h3> <img :src="project.prologo" class="h-16  min-w-16     " alt="">
+              </div>
+              <p class="text-gray-400 mb-2">{{ project.description }}</p>
               
               <!-- Tech Stack -->
-              <div class="flex flex-wrap gap-2 mb-4">
+              <div class="flex flex-wrap gap-2 mb-2">
                 <span v-for="tech in project.technologies" 
                       :key="tech"
                       class="px-3 py-1 text-sm bg-blue-500/20 text-blue-300 rounded-full">
@@ -174,68 +167,68 @@
   {
       title: 'Technology Cambodia',
       description: 'A modern  platform built with Vue.js and Nuxt 3',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Node.js'],
+      image: '/project/tech-cambodia.png',
+      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Directus'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: '/prologo/tech-cambodia.png'
     },
     {
       title: 'Business Cambodia',
       description: 'A modern  platform built with Vue.js and Nuxt 3',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Node.js'],
+      image: '/project/business-cambodia.png',
+      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Directus'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: '/prologo/bc.png'
     },
     {
       title: 'Healthy  Cambodia',
       description: 'A modern  platform built with Vue.js and Nuxt 3',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Node.js'],
+      image: '/project/healthy-cambodia.png',
+      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Directus'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: '/prologo/healthy.png'
     },
     {
       title: 'Attwood Cambodia',
       description: 'A modern  platform built with Vue.js and Nuxt 3',
-      image: '/api/placeholder/600/400',
+      image: '/project/attwood.png',
       technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Node.js'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: '/prologo/attwood.png'
     },
 
     
     {
-      title: 'E-Commerce Platform',
-      description: 'A modern e-commerce platform built with Vue.js and Nuxt 3',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Nuxt 3', 'TailwindCSS', 'Node.js'],
+      title: 'BAKSEY Academy',
+      description: 'A modern E-learning website',
+      image: '/project/baksey.png',
+      technologies: [ 'Nuxt 3','Nest js', 'Directus', 'TailwindCSS'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: '/prologo/baksey.png'
     },
     {
-      title: 'Portfolio Website',
-      description: 'Personal portfolio website with 3D animations',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Three.js', 'GSAP', 'TailwindCSS'],
+      title: 'Khmer 25 Mart',
+      description: 'A modern grocery website',
+      image: '/project/khmer25.png',
+      technologies: ['Nuxt3 js', 'Directus', 'TailwindCSS'],
       liveLink: '#',
-      githubLink: '#'
+      githubLink: '#',
+      prologo: 'https://www.technologycambodia.com/'
     },
-    {
-      title: 'Task Management App',
-      description: 'A collaborative task management application',
-      image: '/api/placeholder/600/400',
-      technologies: ['Vue.js', 'Firebase', 'Vuex', 'TailwindCSS'],
-      liveLink: '#',
-      githubLink: '#'
-    }
+   
+ 
   ])
   
   // Featured project data
   const featuredProject = ref({
     title: 'AI-Powered Analytics Dashboard',
     description: 'A comprehensive analytics dashboard with AI-driven insights and real-time data visualization.',
-    image: '/api/placeholder/800/600',
+    image: '',
     technologies: ['Vue.js', 'TensorFlow.js', 'D3.js', 'Node.js'],
     features: [
       'Real-time data processing',

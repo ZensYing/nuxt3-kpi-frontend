@@ -1,5 +1,5 @@
 <template>
-  <BackgroundAnimationLines />
+  <BackgroundAnimationAnimate />
   <section class="relative h-[110vh] md:min-h-screen  flex items-center  md:items-center  justify-center overflow-hidden text-white">
     <!-- Background Blurry Gradients -->
     <div class="absolute pointer-events-none">

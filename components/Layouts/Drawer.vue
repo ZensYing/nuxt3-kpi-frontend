@@ -14,17 +14,14 @@
           <Icon icon="radix-icons:cross-2" class="w-6 h-6 dark:text-white" />
         </button>
       </div>
-      <div class="py-4 overflow-y-auto">
-        <ul class="space-y-2 font-medium">
-          <li>
-            <a href="/profile"
-              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <div
-                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                <Icon icon="icon-park-outline:people" />
-              </div>
-              <span class="ms-3">{{ $t('profile') }}</span>
-            </a>
+      <div class="py-4 pl-3 text-2xl ">
+        <ul class=" font-medium">
+          <li class="space-y-4 ">
+            <a v-for="(item, index) in localizedMenuItems" :key="index" :href="item.to"
+            class="flex items-center space-x-1 text-gray-700 dark:text-white hover:text-green-600 duration-500 transition-all hover:translate-x-5    ">
+            <Icon :icon="item.icon" class="w-5 h-5 dark:text-white" />
+            <span>{{ item.text }}</span>
+          </a>
           </li>
         </ul>
       </div>
@@ -48,12 +45,36 @@
       localStorage.setItem('locale', lang); // Save to localStorage
     }
   };
-  
-  // Logout logic
-//   const logout = () => {
-//     user.value = null; // Clear the user state
-//     localStorage.removeItem('user'); // Remove from localStorage
-//   };
+  const localizedMenuItems = computed(() =>
+  menuItems.map((item) => ({
+    ...item,
+    text: item.text[locale.value as LocaleKey], // Explicitly cast locale.value as a valid key
+  }))
+);
+  type LocaleKey = 'en' | 'km';
+const menuItems = [
+  {
+    to: '/',
+    icon: 'line-md:home',
+    text: { en: 'Home', km: 'ទំព័រដើម' },
+  },
+  {
+    to: '/blog',
+    icon: 'game-icons:read',
+    text: { en: 'Blog', km: 'ប្លុក' },
+  },
+  {
+    to: '/project',
+    icon: 'eos-icons:project-outlined',
+    text: { en: 'Project', km: 'គម្រោង' },
+  },
+  {
+    to: '/about',
+    icon: 'ix:about',
+    text: { en: 'About', km: 'អំពីយើង' },
+  },
+];
+
   </script>
   
   <style scoped></style>

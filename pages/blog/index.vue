@@ -150,7 +150,7 @@ const nextPage = () => {
 </style> -->
 <!-- pages/maintenance.vue -->
 <template>
-  <BackgroundAnimationLines />
+    <BackgroundAnimationAnimate />
 
   <div class="min-h-screen bg-light dark:bg-dark flex items-center justify-center px-4">
     <div class="css-blurry-gradient-blue"></div>
