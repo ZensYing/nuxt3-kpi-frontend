@@ -7,8 +7,8 @@
                     <p id="prompt">Software Developer</p>
 
                     <div class="image-container">
-                        <div class="relative w-full   lg:h-[27rem] bottom-9 img-mobile ">
-                            <img src="/siri-preview.png" alt="Card Image" class="h-full max-sm:w-60 object-cover    relative inset-0 w-full " />
+                        <div class="relative w-full   lg:h-[27rem] bottom-[2.45rem] img-mobile ">
+                            <img src="/profile.png" alt="Card Image" class="h-full max-sm:w-60 object-cover    relative inset-0 w-full " />
                         </div>
 
                     </div>
