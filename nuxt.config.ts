@@ -27,6 +27,21 @@ export default defineNuxtConfig({
         },
         { rel: 'icon', type: 'image/x-icon', href: '/icon-green.svg' },
       ],
+      script: [
+        {
+          src: "https://www.googletagmanager.com/gtag/js?id=G-4PFB0M8P0C",
+          async: true,
+        },
+        {
+          hid: 'gtmHead',
+          innerHTML: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-4PFB0M8P0C');
+          `,
+        },
+      ],  
     },
   },
   css: ['~/assets/css/main.css', '~/assets/css/index.css'],
@@ -38,7 +53,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      API_BASE_URL: process.env.API_BASE_URL,
+      API_BASE_URL: process.env.API_BASE_URL ,
+      NEST_API_BASE_URL: process.env.NEST_API_BASE_URL ,
+
     },
   },
   plugins: ['~/plugins/iconify.js']
