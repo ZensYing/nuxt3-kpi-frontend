@@ -1,7 +1,7 @@
 import { ref, onMounted } from 'vue';
 
 export default function useTheme() {
-  const theme = ref('dark');
+  const theme = ref('light'); // Default is now 'light'
   
   const setTheme = (newTheme: string) => {
     theme.value = newTheme;
@@ -17,9 +17,8 @@ export default function useTheme() {
     setTheme(theme.value === 'dark' ? 'light' : 'dark');
   };
 
-  // Initialize theme only for client-side updates
   onMounted(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'light'; // Fallback to 'light'
     setTheme(savedTheme);
   });
 

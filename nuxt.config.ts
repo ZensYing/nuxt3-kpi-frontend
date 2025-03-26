@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   app: {
     head: {
-      title: 'Soun Sorahta - Full Stack Developer',
+      title: 'Sale System Baksey',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
           hid: 'description',
           name: 'description',
           content:
-            "Soun Sorahta - Full Stack Developer, Web Developer, Software Developer, Programmer, and Freelancer based in Phnom Penh, Cambodia.",
+            "Sale System Baksey",
         },
         {
           name: 'keywords',
@@ -27,21 +27,6 @@ export default defineNuxtConfig({
         },
         { rel: 'icon', type: 'image/x-icon', href: '/icon-green.svg' },
       ],
-      script: [
-        {
-          src: "https://www.googletagmanager.com/gtag/js?id=G-4PFB0M8P0C",
-          async: true,
-        },
-        {
-          hid: 'gtmHead',
-          innerHTML: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-4PFB0M8P0C');
-          `,
-        },
-      ],  
     },
   },
   css: ['~/assets/css/main.css', '~/assets/css/index.css'],
@@ -54,7 +39,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL ,
-      NEST_API_BASE_URL: process.env.NEST_API_BASE_URL ,
 
     },
   },

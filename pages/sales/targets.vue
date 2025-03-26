@@ -1,7 +1,7 @@
 <template>
-  <div class="h-[200vh]">
+    <div>
 
-  </div>
+    </div>
 </template>
 
 <script setup lang="ts">
