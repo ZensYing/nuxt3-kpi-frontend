@@ -4,8 +4,13 @@
       <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
         <img src="/logo.png" alt="Bakseys Media Logo" class="h-12">
         <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">{{ locale === 'en' ? 'Request Commission Letter' : 'លិខិតស្នើសុំកម្រៃជើងសារ' }}</h1>
-        <div class="w-12"> <img src="" alt="Tech Cambodia Logo" class="h-full"></div>
-      </div>
+        <div class="w-12"> 
+          <img 
+            :src="useImg(selectedCommission?.thumbnail || '')" 
+            class="w-48 "
+          />
+        </div>
+      </div>  
 
       <form @submit.prevent="submitForm" class="p-6">
         <div class="grid grid-cols-2 gap-4 mb-4">
@@ -488,7 +493,12 @@ const updateApprovers = (departmentName: string) => {
     form.value.approvedBy = { name: '', position: '' };
   }
 };
-
+const selectedCommission = computed(() => {
+  if (!form.value.department) return null;
+  return formCommision.find(c => 
+    c.department?.title === form.value.department
+  );
+});
 // Add a new activity row
 const addActivity = () => {
   form.value.activities.push({

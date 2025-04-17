@@ -31,6 +31,7 @@ export interface DirectusUser {
     checkBy: DirectusUser | null;
     verifiedBy: DirectusUser | null;
     approvedBy: DirectusUser | null;
+    thumbnail?: string;
   }
   
   export interface CommissionResponse {
