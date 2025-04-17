@@ -15,27 +15,35 @@
     "@heroicons/vue": "^2.2.0",
     "@iconify/vue": "^4.1.2",
     "@nuxtjs/i18n": "^9.1.0",
+    "@pinia/nuxt": "0.10.1",
     "@vercel/analytics": "^1.4.1",
-    "@vueuse/motion": "^2.2.6",
+    "@vueuse/motion": "^3.0.3",
     "animejs": "^3.2.2",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
+    "file-saver": "^2.0.5",
     "flowbite": "^2.4.1",
     "gauge": "^5.0.2",
     "gsap": "^3.12.5",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "nuxt": "^3.12.4",
+    "pinia": "^3.0.1",
     "sweetalert2": "^11.14.5",
     "swiper": "11.0.7",
     "vue": "latest",
     "vue-awesome-swiper": "5.0.1",
     "vue3-carousel": "0.3.1",
-    "vue3-toastify": "0.2.2"
+    "vue3-toastify": "0.2.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",
+    "@types/file-saver": "^2.0.7",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.7.2"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

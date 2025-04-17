@@ -79,7 +79,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { useRouter, useRoute } from 'vue-router';
-import LayoutsDrawer from '~/components/Layouts/Drawer.vue';
 import useTheme from '~/composables/useTheme';
 import { useI18n } from 'vue-i18n';
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';

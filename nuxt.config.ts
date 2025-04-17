@@ -1,9 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
+  ssr: false,
+
   app: {
     head: {
-      title: 'Sale System Baksey',
+      title: 'KPI System Baksey',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,7 +14,7 @@ export default defineNuxtConfig({
           hid: 'description',
           name: 'description',
           content:
-            "Sale System Baksey",
+            "KPI System Baksey",
         },
         {
           name: 'keywords',
@@ -29,18 +31,23 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   css: ['~/assets/css/main.css', '~/assets/css/index.css'],
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL ,
 
     },
   },
-  plugins: ['~/plugins/iconify.js']
+
+  plugins: ['~/plugins/iconify.js'],
+  modules: ['@pinia/nuxt']
 });

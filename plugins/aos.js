@@ -5,7 +5,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   if (import.meta.client) {
     // add dureation
     AOS.init({
-      duration: 1500,
+      duration: 800,
+      once: true
     });
   }
 });
