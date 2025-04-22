@@ -119,7 +119,7 @@
                   </th>
                   <th
                     class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
-                    {{ locale === 'en' ? 'Clients' : 'អតិថិជន' }}
+                    {{ locale === 'en' ? 'Client' : 'អតិថិជន' }}
                   </th>
                   <!-- <th
                     class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
@@ -168,7 +168,7 @@
 
                   <td class="px-4 py-3">
                     <div class="relative">
-                      <select v-model="activity.clients"
+                      <!-- <select v-model="activity.clients"
                         class="w-full px-3 py-2 rounded-md appearance-none border border-gray-200 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700
                             focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-30 transition-all text-sm"
                         @change="handleClientChange($event, index)">
@@ -179,16 +179,19 @@
                         <option v-for="client in availableClients" :key="client.id" :value="client.name">
                           {{ client.name }}
                         </option>
-                      </select>
-                      <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                      </select> -->
+                      <input v-model.number="activity.client" type="text" placeholder="client"
+                      class="w-full px-3 py-2 rounded-md border border-gray-200 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700
+                          focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-30 transition-all text-sm"  />
+                      <!-- <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
                           viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
                           </path>
                         </svg>
-                      </div>
+                      </div> -->
 
-                      <div v-if="showNewClientInput[index]"
+                      <!-- <div v-if="showNewClientInput[index]"
                         class="absolute z-10 mt-2 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 p-2"
                         v-motion-slide-visible="{
                           initial: { opacity: 0, y: -10 },
@@ -206,7 +209,7 @@
                             </svg>
                           </button>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </td>
                   <!-- <td class="px-4 py-3">
@@ -562,7 +565,7 @@ interface Activity {
   name: string;
   bonusFee: number;
   amount: number;
-  clients: string;
+  client: string;
   total: number;
   references: Array<{
     image: string | null;
@@ -626,8 +629,8 @@ const form: Ref<KPIForm> = ref({
   activities: [{
     name: '',
     bonusFee: 0,
-    amount: 0,
-    clients: '',
+    amount: 1,
+    client: '',
     // feeCharge: 0,
     total: 0,
     references: [{ image: null, link: '' }]
@@ -694,7 +697,7 @@ const handleClientChange = (event: Event, index: number) => {
     // Show the input field for adding a new client
     showNewClientInput.value[index] = true;
     // Reset the selected value temporarily
-    form.value.activities[index].clients = '';
+    form.value.activities[index].client = '';
   } else {
     // Hide the input field
     showNewClientInput.value[index] = false;
@@ -716,7 +719,7 @@ const addNewClient = (index: number) => {
     });
 
     // Set the new client as the selected value
-    form.value.activities[index].clients = newClientName;
+    form.value.activities[index].client = newClientName;
 
     // Reset and hide the input
     newClientNames.value[index] = '';
@@ -781,7 +784,7 @@ const addActivity = () => {
     name: '',
     bonusFee: 0,
     amount: 0,
-    clients: '',
+    client: '',
     total: 0,
     references: [{ image: null, link: '' }]
   });
@@ -797,7 +800,7 @@ const removeActivity = (index: number) => {
       name: '',
       bonusFee: 0,
       amount: 0,
-      clients: '',
+      client: '',
       // feeCharge: 0,
       total: 0,
       references: [{ image: null, link: '' }]
@@ -819,7 +822,7 @@ const resetForm = () => {
       name: '',
       bonusFee: 0,
       amount: 0,
-      clients: '',
+      client: '',
       // feeCharge: 0,
       total: 0,
       references: [{ image: null, link: '' }]
