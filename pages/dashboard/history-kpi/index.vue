@@ -1,55 +1,57 @@
 <template>
-    <div class="container min-h-screen mx-auto p-4 md:p-6">
-      <div
-        class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800"
-        v-motion-slide-visible-once="{
-          initial: { opacity: 0, y: 50 },
-          visibleOnce: { opacity: 1, y: 0, transition: { duration: 600 } }
-        }"
-      >
-        <!-- Header with Title -->
-        <div class="relative overflow-hidden p-6 border-b dark:border-gray-800">
-          <div
-            class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/3 dark:from-blue-900/10 dark:to-indigo-800/10"
-          ></div>
-          <div
-            class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-100/20 to-indigo-100/20 rounded-full translate-y-1/2 -translate-x-1/3 dark:from-blue-900/5 dark:to-indigo-800/5"
-          ></div>
-  
-          <div class="flex justify-between items-center relative z-10">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-              {{ locale === 'en' ? 'My Commission History' : 'ប្រវត្តិនៃការស្នើសុំកម្រៃជើងសារ' }}
-            </h1>
-            <div class="flex items-center gap-3">
-              <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span>{{ currentDate }}</span>
-              </div>
+  <div class="container min-h-screen mx-auto p-4 md:p-6">
+    <div
+      class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800"
+      v-motion-slide-visible-once="{
+        initial: { opacity: 0, y: 50 },
+        visibleOnce: { opacity: 1, y: 0, transition: { duration: 600 } }
+      }"
+    >
+      <!-- Modern Gradient Header with Title -->
+      <div class="relative overflow-hidden p-8 border-b dark:border-gray-800 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-200/40 to-indigo-300/40 rounded-full -translate-y-1/3 translate-x-1/4 dark:from-blue-800/20 dark:to-indigo-700/20 blur-xl"></div>
+        <div class="absolute bottom-0 left-0 w-44 h-44 bg-gradient-to-tr from-blue-200/30 to-indigo-200/30 rounded-full translate-y-1/2 -translate-x-1/4 dark:from-blue-800/10 dark:to-indigo-700/10 blur-lg"></div>
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10 gap-4">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center">
+            <span class="bg-blue-600 text-white p-2 rounded-lg mr-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </span>
+            {{ locale === 'en' ? 'My Commission History' : 'ប្រវត្តិនៃការស្នើសុំកម្រៃជើងសារ' }}
+          </h1>
+          <div class="flex items-center gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm py-2 px-4 rounded-full shadow-sm">
+            <div class="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{{ currentDate }}</span>
             </div>
           </div>
         </div>
-  
-        <!-- Content Area -->
-        <div class="p-6">
-          <!-- Filter Controls -->
-          <div class="flex flex-col md:flex-row gap-4 mb-6">
-            <div class="relative flex-1">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </div>
-              <input 
-                v-model="searchQuery" 
-                type="text" 
-                class="block w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500" 
-                :placeholder="locale === 'en' ? 'Search by title, department...' : 'ស្វែងរកតាមចំណងជើង ដេប៉ាតឺម៉ង់...'" 
-              />
+      </div>
+
+      <!-- Content Area with Enhanced Filter Controls -->
+      <div class="p-6 md:p-8">
+        <!-- Improved Filter Controls -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
             </div>
-            <div class="md:w-48">
+            <input 
+              v-model="searchQuery" 
+              type="text" 
+              class="block w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm" 
+              :placeholder="locale === 'en' ? 'Search by title, department...' : 'ស្វែងរកតាមចំណងជើង ដេប៉ាតឺម៉ង់...'" 
+            />
+          </div>
+          <div class="md:w-64">
+            <div class="relative">
               <select 
                 v-model="statusFilter" 
-                class="block w-full p-2 border border-gray-200 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+                class="block w-full appearance-none pl-4 pr-12 py-3 border border-gray-200 rounded-xl bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
               >
                 <option value="">{{ locale === 'en' ? 'All Statuses' : 'ស្ថានភាពទាំងអស់' }}</option>
                 <option value="requested">{{ locale === 'en' ? 'Requested' : 'បានស្នើសុំ' }}</option>
@@ -57,139 +59,160 @@
                 <option value="verified">{{ locale === 'en' ? 'Verified' : 'បានបញ្ជាក់' }}</option>
                 <option value="approved">{{ locale === 'en' ? 'Approved' : 'បានអនុម័ត' }}</option>
                 <option value="canceled">{{ locale === 'en' ? 'Canceled' : 'បានបោះបង់' }}</option>
-               
               </select>
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
             </div>
           </div>
-  
-          <!-- Loading State -->
-          <div v-if="loading" class="flex justify-center items-center py-20">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        </div>
+
+        <!-- Improved Loading State -->
+        <div v-if="loading" class="flex justify-center items-center py-24">
+          <div class="flex flex-col items-center">
+            <div class="animate-spin rounded-full h-14 w-14 border-b-2 border-t-2 border-blue-500"></div>
+            <p class="mt-4 text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Loading your data...' : 'កំពុងផ្ទុកទិន្នន័យរបស់អ្នក...' }}</p>
           </div>
-  
-          <!-- Error State -->
-          <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 p-6 rounded-xl text-center">
-            <svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        </div>
+
+        <!-- Improved Error State -->
+        <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 p-8 rounded-xl text-center">
+          <div class="bg-red-100 dark:bg-red-800/30 rounded-full p-3 inline-flex mx-auto mb-4">
+            <svg class="h-12 w-12 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-red-800 dark:text-red-200">{{ locale === 'en' ? 'Error Loading Data' : 'មានបញ្ហាក្នុងការផ្ទុកទិន្នន័យ' }}</h3>
-            <p class="mt-2 text-red-700 dark:text-red-300">{{ errorMessage }}</p>
-            <button @click="fetchKpiHistory" class="mt-4 px-4 py-2 bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100 rounded-md hover:bg-red-200 dark:hover:bg-red-700 transition-colors">
-              {{ locale === 'en' ? 'Try Again' : 'ព្យាយាមម្តងទៀត' }}
-            </button>
           </div>
-  
-          <!-- Empty State -->
-          <div v-else-if="filteredHistory.length === 0" class="bg-gray-50 dark:bg-gray-800/50 p-12 rounded-xl text-center">
-            <svg class="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <h3 class="text-xl font-medium text-red-800 dark:text-red-200">{{ locale === 'en' ? 'Error Loading Data' : 'មានបញ្ហាក្នុងការផ្ទុកទិន្នន័យ' }}</h3>
+          <p class="mt-2 text-red-700 dark:text-red-300">{{ errorMessage }}</p>
+          <button @click="fetchKpiHistory" class="mt-6 px-6 py-3 bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100 rounded-xl hover:bg-red-200 dark:hover:bg-red-700 transition-colors font-medium">
+            {{ locale === 'en' ? 'Try Again' : 'ព្យាយាមម្តងទៀត' }}
+          </button>
+        </div>
+
+        <!-- Improved Empty State -->
+        <div v-else-if="filteredHistory.length === 0" class="bg-gray-50 dark:bg-gray-800/50 p-16 rounded-xl text-center">
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-full p-6 inline-flex mx-auto mb-6">
+            <svg class="h-16 w-16 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">{{ locale === 'en' ? 'No Commission Requests Found' : 'រកមិនឃើញការស្នើសុំកម្រៃជើងសារទេ' }}</h3>
-            <p class="mt-2 text-gray-500 dark:text-gray-400">{{ searchQuery || statusFilter ? (locale === 'en' ? 'Try adjusting your filters' : 'សាកល្បងកែតម្រូវតម្រងរបស់អ្នក') : (locale === 'en' ? 'You have not submitted any commission requests yet' : 'អ្នកមិនទាន់បានដាក់ស្នើសុំកម្រៃជើងសារណាមួយនៅឡើយទេ') }}</p>
-            <NuxtLink to="/dashboard/request" class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-              {{ locale === 'en' ? 'Create New Request' : 'បង្កើតសំណើថ្មី' }}
-            </NuxtLink>
           </div>
-  
-          <!-- KPI History Cards -->
-          <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div 
-              v-for="(item, index) in filteredHistory" 
-              :key="item.id"
-              class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all overflow-hidden"
-              v-motion-slide-visible="{
-                initial: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 300, delay: index * 100 } }
-              }"
-            >
-              <!-- Card Header -->
-              <div class="relative p-5 border-b border-gray-100 dark:border-gray-700">
-                <div :class="`absolute top-0 right-0 w-24 h-24 rounded-bl-full ${getStatusBgColor(item.status)}`"></div>
+          <h3 class="text-xl font-medium text-gray-900 dark:text-white">{{ locale === 'en' ? 'No Commission Requests Found' : 'រកមិនឃើញការស្នើសុំកម្រៃជើងសារទេ' }}</h3>
+          <p class="mt-2 text-gray-500 dark:text-gray-400">{{ searchQuery || statusFilter ? (locale === 'en' ? 'Try adjusting your filters' : 'សាកល្បងកែតម្រូវតម្រងរបស់អ្នក') : (locale === 'en' ? 'You have not submitted any commission requests yet' : 'អ្នកមិនទាន់បានដាក់ស្នើសុំកម្រៃជើងសារណាមួយនៅឡើយទេ') }}</p>
+          <NuxtLink to="/dashboard/request" class="mt-6 inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium shadow-md">
+            <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            {{ locale === 'en' ? 'Create New Request' : 'បង្កើតសំណើថ្មី' }}
+          </NuxtLink>
+        </div>
+
+        <!-- Improved KPI History Cards -->
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="(item, index) in filteredHistory" 
+            :key="item.id"
+            class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all overflow-hidden group"
+            v-motion-slide-visible="{
+              initial: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 300, delay: index * 100 } }
+            }"
+          >
+            <!-- Card Header with Glass Effect -->
+            <div class="relative p-6 border-b border-gray-100 dark:border-gray-700 backdrop-blur-sm">
+              <div :class="`absolute -top-12 -right-12 w-36 h-36 rounded-full ${getStatusBgColor(item.status)} blur-xl opacity-70`"></div>
+              
+              <div class="flex justify-between items-start mb-3 relative">
+                <h3 class="font-semibold text-lg text-gray-900 dark:text-white truncate mr-8">{{ item.category }}</h3>
+                <span :class="`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusTextColor(item.status)}`">
+                  {{ locale === 'en' ? formatStatus(item.status) : formatStatusKhmer(item.status) }}
+                </span>
+              </div>
+              
+              <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                <svg class="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                {{ formatDate(item.date_created) }}
+              </div>
+            </div>
+            
+            <!-- Card Content with Improved Layout -->
+            <div class="p-6">
+              <div class="space-y-4">
+                <div class="flex justify-between items-baseline p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
+                  <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Department' : 'ដេប៉ាតឺម៉ង់' }}:</span>
+                  <span class="text-sm text-gray-900 dark:text-white font-medium">{{ item.department }}</span>
+                </div>
                 
-                <div class="flex justify-between items-start mb-2 relative">
-                  <h3 class="font-semibold text-lg text-gray-900 dark:text-white truncate mr-8">{{ item.category }}</h3>
-                  <span :class="`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusTextColor(item.status)}`">
-                    {{ locale === 'en' ? formatStatus(item.status) : formatStatusKhmer(item.status) }}
+                <div class="flex justify-between items-baseline p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
+                  <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Activities' : 'សកម្មភាព' }}:</span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 font-medium">
+                    {{ item.activities.length }}
                   </span>
                 </div>
                 
-                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                  <svg class="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                  </svg>
-                  {{ formatDate(item.date_created) }}
+                <div class="flex justify-between items-baseline p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
+                  <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Total Amount' : 'ចំនួនទឹកប្រាក់សរុប' }}:</span>
+                  <span class="text-sm font-bold text-blue-600 dark:text-blue-400">${{ calculateTotal(item.activities).toFixed(2) }}</span>
                 </div>
               </div>
               
-              <!-- Card Content -->
-              <div class="p-5">
-                <div class="space-y-3">
-                  <div class="flex justify-between items-baseline">
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Department' : 'ដេប៉ាតឺម៉ង់' }}:</span>
-                    <span class="text-sm text-gray-900 dark:text-white">{{ item.department }}</span>
-                  </div>
-                  
-                  <div class="flex justify-between items-baseline">
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Activities' : 'សកម្មភាព' }}:</span>
-                    <span class="text-sm text-gray-900 dark:text-white">{{ item.activities.length }}</span>
-                  </div>
-                  
-                  <div class="flex justify-between items-baseline">
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ locale === 'en' ? 'Total Amount' : 'ចំនួនទឹកប្រាក់សរុប' }}:</span>
-                    <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">${{ calculateTotal(item.activities).toFixed(2) }}</span>
-                  </div>
-                </div>
+              <!-- Improved Actions -->
+              <div class="mt-6 flex justify-between items-center">
+                <NuxtLink :to="`/dashboard/history-kpi/${item.id}`" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 group-hover:underline">
+                  {{ locale === 'en' ? 'View Details' : 'មើលព័ត៌មានលម្អិត' }}
+                  <svg class="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </NuxtLink>
                 
-                <!-- Actions -->
-                <div class="mt-5 flex justify-between">
-                  <NuxtLink :to="`/dashboard/history-kpi/${item.id}`" class="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                    {{ locale === 'en' ? 'View Details' : 'មើលព័ត៌មានលម្អិត' }}
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                  </NuxtLink>
-                  
-                  <button 
-                    v-if="item.status === 'pending'" 
-                    @click="cancelRequest(item.id)"
-                    class="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
-                  >
-                    {{ locale === 'en' ? 'Cancel' : 'បោះបង់' }}
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                  </button>
-                </div>
+                <button 
+                  v-if="item.status === 'pending'" 
+                  @click="cancelRequest(item.id)"
+                  class="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                >
+                  {{ locale === 'en' ? 'Cancel' : 'បោះបង់' }}
+                  <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
-          
-          <!-- Pagination Controls -->
-          <div v-if="kpiHistory.length > 0" class="mt-8 flex justify-center">
-            <div class="inline-flex shadow-sm">
-              <button 
-                @click="changePage(currentPage - 1)" 
-                :disabled="currentPage === 1"
-                class="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-l-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {{ locale === 'en' ? 'Previous' : 'មុន' }}
-              </button>
-              <div class="flex items-center px-4 py-2 border-t border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
-                {{ currentPage }} / {{ totalPages }}
-              </div>
-              <button 
-                @click="changePage(currentPage + 1)" 
-                :disabled="currentPage === totalPages"
-                class="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-r-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {{ locale === 'en' ? 'Next' : 'បន្ទាប់' }}
-              </button>
+        </div>
+        
+        <!-- Improved Pagination Controls -->
+        <div v-if="kpiHistory.length > 0" class="mt-10 flex justify-center">
+          <div class="inline-flex shadow-md rounded-xl overflow-hidden">
+            <button 
+              @click="changePage(currentPage - 1)" 
+              :disabled="currentPage === 1"
+              class="px-5 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <div class="flex items-center px-6 py-3 border-t border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium">
+              {{ currentPage }} / {{ totalPages }}
             </div>
+            <button 
+              @click="changePage(currentPage + 1)" 
+              :disabled="currentPage === totalPages"
+              class="px-5 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue';
