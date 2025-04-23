@@ -910,7 +910,7 @@ const submitForm = async () => {
     console.log('Submitting data with ID-only approvers:', submissionData);
 
     // Send data to API
-    const response = await useApi('/items/kpi', {
+    const response = await useApi<{ data: { id: string } }>('/items/kpi', {
       method: 'POST',
       data: submissionData
     });
@@ -923,8 +923,9 @@ const submitForm = async () => {
       confirmButtonText: locale.value === 'en' ? 'View Requests' : 'មើលសំណើ'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Navigate to commission requests list
-        router.push('/commission-requests');
+        // Navigate to commission requests list by id
+        const commissionId = (response as { data: { id: string } }).data.id;
+        router.push(`/dashboard/history-kpi/${commissionId}`);
       }
     });
 
