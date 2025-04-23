@@ -528,7 +528,6 @@ const handleFileChange = async (event: Event, activityIndex: number, referenceIn
     }
     
     // This will depend on how you handle file uploads
-    // For example, if using Directus:
     // 1. Upload the file
     const formData = new FormData();
     formData.append('file', file);
