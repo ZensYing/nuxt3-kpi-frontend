@@ -34,7 +34,7 @@
       <div class="p-6 md:p-8">
         <!-- Improved Filter Controls -->
         <div class="flex flex-col md:flex-row gap-4 mb-8 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl">
-          <div class="relative flex-1">
+          <!-- <div class="relative flex-1">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -46,7 +46,7 @@
               class="block w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm" 
               :placeholder="locale === 'en' ? 'Search by title, department...' : 'ស្វែងរកតាមចំណងជើង ដេប៉ាតឺម៉ង់...'" 
             />
-          </div>
+          </div> -->
           <div class="md:w-64">
             <div class="relative">
               <select 
@@ -60,11 +60,11 @@
                 <option value="approved">{{ locale === 'en' ? 'Approved' : 'បានអនុម័ត' }}</option>
                 <option value="canceled">{{ locale === 'en' ? 'Canceled' : 'បានបោះបង់' }}</option>
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+              <!-- <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
