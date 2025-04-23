@@ -1,5 +1,20 @@
 <template>
   <div class=" mx-auto px-4  min-h-screen bg-gray-50 dark:bg-gray-900" v-motion-fade-visible-once data-aos="fade-down">
+    <div class="relative">
+      <!-- Blur Overlay -->
+      <div class="absolute inset-0 z-10 backdrop-blur-sm bg-white/30 dark:bg-gray-900/50 flex items-center justify-center rounded-lg">
+        <div class="text-center p-8 bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-xl transform transition-all duration-500 hover:scale-105 border-2 border-red-500 dark:border-red-400">
+          <Icon icon="mdi:clock-time-four-outline" class="text-6xl text-red-500 mb-4 animate-pulse" />
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-3">Coming Soon!</h2>
+          <p class="text-xl text-gray-700 dark:text-gray-300">This feature will be available soon</p>
+          <div class="mt-6">
+            <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+              <Icon icon="mdi:bell" class="inline-block mr-2" />
+              Come Back Later
+            </button>
+          </div>
+        </div>     
+      </div>
     <div class="flex items-center justify-start mt-2 mb-2">
       <NuxtLink to="/dashboard/monthly-ads-video-tracker/view" class="mr-4">
         <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg 
@@ -168,6 +183,7 @@
       </div>
     </form>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">
