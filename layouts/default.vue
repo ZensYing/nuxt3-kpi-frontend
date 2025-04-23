@@ -145,7 +145,7 @@
     <div v-if="isSidebarOpen" @click="closeSidebar" class="fixed inset-0 bg-black/50 z-40 md:hidden"></div>
 
     <!-- Page content -->
-    <div class="md:ml-64 pt-20  ">
+    <div class="md:ml-64 pt-20 p-2  ">
       <slot />
     </div>
   </div>
@@ -316,11 +316,11 @@ const menuItems = [
     icon: 'mdi:currency-usd',
     label: { en: 'Monthly Video Ads Tracker', km: 'កម្មវិធីតាមដានការផ្សាយពាណិជ្ជកម្មវីដេអូប្រចាំខែ' }
   },
-  {
-    to: '/dashboard/reports',
-    icon: 'mdi:file-document',
-    label: { en: 'Reports', km: 'របាយការណ៍' }
-  },
+  // {
+  //   to: '/dashboard/reports',
+  //   icon: 'mdi:file-document',
+  //   label: { en: 'Reports', km: 'របាយការណ៍' }
+  // },
   // for sales only 
   {
     to: '/dashboard/commissions',
