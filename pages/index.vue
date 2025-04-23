@@ -35,8 +35,12 @@
         </div>
       </div>
     </div>
+    <div>
+    <IndexPageHistoryKpi />
+
+    </div>
     <!-- Recent Requests Table -->
-    <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-hidden">
+    <!-- <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-hidden">
       <div class="">
         <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">{{ locale === 'en' ? 'Recent KPI Requests' : 'សំណើ KPI ថ្មីៗ' }}</h2>
         <div class="overflow-x-auto">
@@ -84,7 +88,7 @@
           </table>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- ListUser -->
