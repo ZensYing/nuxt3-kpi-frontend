@@ -145,7 +145,7 @@
     <div v-if="isSidebarOpen" @click="closeSidebar" class="fixed inset-0 bg-black/50 z-40 md:hidden"></div>
 
     <!-- Page content -->
-    <div class="md:ml-64 pt-20 p-4 ">
+    <div class="md:ml-64 pt-20  ">
       <slot />
     </div>
   </div>
