@@ -302,7 +302,7 @@ const menuItems = [
     label: { en: 'Form Request KPI', km: 'ទម្រង់ស្នើសុំ KPI' }
   },
   {
-    to: '/dashboard/performance',
+    to: '/dashboard/history-kpi/',
     icon: 'emojione-v1:document',
     label: { en: 'History of Request KPI', km: 'ប្រវត្តិការស្នើសុំ KPI' }
   },
