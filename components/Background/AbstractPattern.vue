@@ -17,7 +17,7 @@
   // Configuration  
   const config = {
     color: 0xffffff,
-    backgroundColor: 0x0aa2ed, // Changed to #0aa2ed (RGB: 10, 162, 237)
+    backgroundColor: 0x0aa2ed,
     gridSize: { width: 1000, height: 1000 },
     gridDivisions: { width: 30, height: 30 },
     waveSpeed: 0.5,

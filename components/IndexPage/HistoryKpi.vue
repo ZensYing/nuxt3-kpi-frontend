@@ -111,12 +111,7 @@
               <!-- Table Header -->
               <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
-                  <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    {{ locale === 'en' ? 'Category' : 'ប្រភេទ' }}
-                  </th>
-                  <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    {{ locale === 'en' ? 'Department' : 'ដេប៉ាតឺម៉ង់' }}
-                  </th>
+                 
                   <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     {{ locale === 'en' ? 'Date' : 'កាលបរិច្ឆេទ' }}
                   </th>
@@ -146,16 +141,6 @@
                     visible: { opacity: 1, y: 0, transition: { duration: 200, delay: index * 50 } }
                   }"
                 >
-                  <!-- Category -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="font-medium text-gray-900 dark:text-white">{{ item.category }}</div>
-                  </td>
-                  
-                  <!-- Department -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-700 dark:text-gray-300">{{ item.department }}</div>
-                  </td>
-                  
                   <!-- Date -->
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm text-gray-600 dark:text-gray-400 flex items-center">
