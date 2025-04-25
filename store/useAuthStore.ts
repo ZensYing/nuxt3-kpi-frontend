@@ -12,7 +12,7 @@ type User = {
   avatar: string;
   cart?: any;
   address?: any;
-  departments?: Department ;
+  department?: Department ;
   signature: string;
   title: string;
 };
@@ -20,6 +20,8 @@ type User = {
 type Department = {
   text: string;
   value: string;
+  id: string;
+  title: string;
 };
 type Role = {
   id: string;
@@ -97,7 +99,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function fetchUser() {
     try {
       const response = await useApi<{ data: User[] }>(
-        `/users?filter[id]=$CURRENT_USER&fields=id,first_name,last_name,email,avatar, role.id ,role.name,departments,signature,title`,
+        `/users?filter[id]=$CURRENT_USER&fields=id,first_name,last_name,email,avatar, role.id ,role.name,signature,title,department.id,department.title`,
         {
           method: 'GET',
         }

@@ -59,19 +59,13 @@
                 {{ locale === 'en' ? 'Department' : 'ដេប៉ាតឺម៉ង់' }}
               </label>
               <div class="relative">
-                <select v-model="form.department" class="block w-full px-4 py-3 rounded-lg appearance-none bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white shadow-sm 
-                       focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-30 transition-all">
-                  <option value="" disabled>{{ locale === 'en' ? 'Select Department' : 'ជ្រើសរើសដេប៉ាតឺម៉ង់' }}</option>
-                  <option v-for="dept in availableDepartments" :key="dept" :value="dept">
-                    {{ dept }}
-                  </option>
-                </select>
-                <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </div>
+                <input 
+                  readonly 
+                  v-model="form.departmentTitle" 
+                  type="text" 
+                  class="block w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white shadow-sm 
+                  focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-30 transition-all" 
+                />
               </div>
             </div>
           </div>
@@ -413,6 +407,7 @@
       </div>
     </div>
   </template>
+
   <script setup lang="ts">
   import { ref, watch, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
@@ -578,6 +573,7 @@
   
   interface KPIForm {
     name: string;
+    departmentTitle: string; // New field to store department title for display
     department: string;
     category: string;
     totalBonusAmount: number;
@@ -605,70 +601,79 @@
   
   const approvers = ['requestedBy', 'checkedBy', 'verifiedBy', 'approvedBy'] as const;
   
-  // Format approver titles for display
-  const formatApproverTitle = (approver: string) => {
-    const titles = {
-      requestedBy: locale.value === 'en' ? 'Requested By' : 'ស្នើសុំដោយ',
-      checkedBy: locale.value === 'en' ? 'Checked By' : 'ត្រួតពិនិត្យដោយ',
-      verifiedBy: locale.value === 'en' ? 'Verified By' : 'ផ្ទៀងផ្ទាត់ដោយ',
-      approvedBy: locale.value === 'en' ? 'Approved By' : 'អនុម័តដោយ'
-    };
-  
-    return titles[approver as keyof typeof titles] || approver.replace(/([A-Z])/g, ' $1').trim();
+// Format approver titles for display
+const formatApproverTitle = (approver: string) => {
+  const titles = {
+    requestedBy: locale.value === 'en' ? 'Requested By' : 'ស្នើសុំដោយ',
+    checkedBy: locale.value === 'en' ? 'Checked By' : 'ត្រួតពិនិត្យដោយ',
+    verifiedBy: locale.value === 'en' ? 'Verified By' : 'ផ្ទៀងផ្ទាត់ដោយ',
+    approvedBy: locale.value === 'en' ? 'Approved By' : 'អនុម័តដោយ'
   };
-  
-  // Initialize form
-  const form: Ref<KPIForm> = ref({
+
+  return titles[approver as keyof typeof titles] || approver.replace(/([A-Z])/g, ' $1').trim();
+};
+// Initialize form with department ID instead of title
+const form: Ref<KPIForm> = ref({
+  name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
+  department: auth.user?.department?.id || '', // Changed to use ID instead of title
+  departmentTitle: auth.user?.department?.title || '', // Keep title for display purposes
+  category: auth.user?.title || '',
+  totalBonusAmount: 0,
+  activities: [{
+    name: '',
+    bonusFee: 0,
+    amount: 1,
+    client: '',
+    total: 0,
+    references: [{ image: null, link: '' }]
+  }],
+  requestedBy: {
     name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
-    department: '',
-    category: auth.user?.title || '',
-    totalBonusAmount: 0,
-    activities: [{
-      name: '',
-      bonusFee: 0,
-      amount: 1,
-      client: '',
-      // feeCharge: 0,
-      total: 0,
-      references: [{ image: null, link: '' }]
-    }],
-    requestedBy: {
-      name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
-      position: auth.user?.title || '',
-      id: auth.user?.id ? String(auth.user.id) : ''
-    },
-    checkedBy: {
-      id: '',
-      name: '',
-      position: ''
-    },
-    verifiedBy: {
-      id: '',
-      name: '',
-      position: ''
-    },
-    approvedBy: {
-      id: '',
-      name: '',
-      position: ''
-    },
-    reference: ''
-  });
+    position: auth.user?.title || '',
+    id: auth.user?.id ? String(auth.user.id) : ''
+  },
+  checkedBy: {
+    id: '',
+    name: '',
+    position: ''
+  },
+  verifiedBy: {
+    id: '',
+    name: '',
+    position: ''
+  },
+  approvedBy: {
+    id: '',
+    name: '',
+    position: ''
+  },
+  reference: ''
+});
+
   
   // Calculate total bonus fee
   const totaltotal = computed(() => {
     return form.value.activities.reduce((sum, activity) => sum + (activity.total || 0), 0);
   });
-  
-  // Create a reactive departments list for department dropdown
-  const availableDepartments = computed(() => {
-    const departments = formCommision
-      .filter(commission => commission.department?.title)
-      .map(commission => commission.department.title);
-  
-    // Remove duplicates
-    return [...new Set(departments)];
-  });
+  // Create a mapping of department IDs to titles for the dropdown
+const departmentMapping = computed(() => {
+  return formCommision
+    .filter(commission => commission.department?.id && commission.department?.title)
+    .reduce((map, commission) => {
+      map[commission.department.id] = commission.department.title;
+      return map;
+    }, {} as Record<string, string>);
+});
+ // Create a reactive departments list for department dropdown with both ID and title
+const availableDepartments = computed(() => {
+  return formCommision
+    .filter(commission => commission.department?.id && commission.department?.title)
+    .map(commission => ({
+      id: commission.department.id,
+      title: commission.department.title
+    }));
+});
+
   
   // Debug function to help troubleshoot
   const logDebugInfo = () => {
@@ -725,55 +730,61 @@
   };
   
   // Separate function to update approvers for better organization
-  const updateApprovers = (departmentName: string) => {
-    if (!departmentName) return;
-  
-    console.log('Updating approvers for department:', departmentName);
-  
-    // Case-insensitive matching with trimming for better matching
-    const departmentCommission = formCommision.find(commission =>
-      commission.department?.title?.toLowerCase().trim() === departmentName.toLowerCase().trim()
-    );
-  
-    if (departmentCommission) {
-      console.log('Found matching commission record:', departmentCommission);
-  
-      // Update checkedBy
-      if (departmentCommission.checkBy) {
-        form.value.checkedBy.id = departmentCommission.checkBy.id;
-        form.value.checkedBy.name = `${departmentCommission.checkBy.first_name} ${departmentCommission.checkBy.last_name}`;
-        form.value.checkedBy.position = departmentCommission.checkBy.title || '';
-      }
-  
-      // Update verifiedBy
-      if (departmentCommission.verifiedBy) {
-        form.value.verifiedBy.id = departmentCommission.verifiedBy.id;
-        form.value.verifiedBy.name = `${departmentCommission.verifiedBy.first_name} ${departmentCommission.verifiedBy.last_name}`;
-        form.value.verifiedBy.position = departmentCommission.verifiedBy.title || '';
-      }
-  
-      // Update approvedBy
-      if (departmentCommission.approvedBy) {
-        form.value.approvedBy.id = departmentCommission.approvedBy.id;
-        form.value.approvedBy.name = `${departmentCommission.approvedBy.first_name} ${departmentCommission.approvedBy.last_name}`;
-        form.value.approvedBy.position = departmentCommission.approvedBy.title || '';
-      }
-    } else {
-      console.warn('No matching department found in commission records for:', departmentName);
-  
-      // If no matching department is found, reset approver fields
-      form.value.checkedBy = { name: '', position: '', id: '' };
-      form.value.verifiedBy = { name: '', position: '', id: '' };
-      form.value.approvedBy = { name: '', position: '', id: '' };
+  // Separate function to update approvers based on department ID
+const updateApprovers = (departmentId: string) => {
+  if (!departmentId) return;
+
+  console.log('Updating approvers for department ID:', departmentId);
+
+  // Find commission record by department ID
+  const departmentCommission = formCommision.find(commission =>
+    commission.department?.id === Number(departmentId)
+  );
+
+  if (departmentCommission) {
+    console.log('Found matching commission record:', departmentCommission);
+
+    // Set department title for display
+    form.value.departmentTitle = departmentCommission.department?.title || '';
+
+    // Update checkedBy
+    if (departmentCommission.checkBy) {
+      form.value.checkedBy.id = departmentCommission.checkBy.id;
+      form.value.checkedBy.name = `${departmentCommission.checkBy.first_name} ${departmentCommission.checkBy.last_name}`;
+      form.value.checkedBy.position = departmentCommission.checkBy.title || '';
     }
-  };
+
+    // Update verifiedBy
+    if (departmentCommission.verifiedBy) {
+      form.value.verifiedBy.id = departmentCommission.verifiedBy.id;
+      form.value.verifiedBy.name = `${departmentCommission.verifiedBy.first_name} ${departmentCommission.verifiedBy.last_name}`;
+      form.value.verifiedBy.position = departmentCommission.verifiedBy.title || '';
+    }
+
+    // Update approvedBy
+    if (departmentCommission.approvedBy) {
+      form.value.approvedBy.id = departmentCommission.approvedBy.id;
+      form.value.approvedBy.name = `${departmentCommission.approvedBy.first_name} ${departmentCommission.approvedBy.last_name}`;
+      form.value.approvedBy.position = departmentCommission.approvedBy.title || '';
+    }
+  } else {
+    console.warn('No matching department found in commission records for ID:', departmentId);
+
+    // If no matching department is found, reset approver fields
+    form.value.departmentTitle = ''; // Clear display title too
+    form.value.checkedBy = { name: '', position: '', id: '' };
+    form.value.verifiedBy = { name: '', position: '', id: '' };
+    form.value.approvedBy = { name: '', position: '', id: '' };
+  }
+};
+
   
-  const selectedCommission = computed(() => {
-    if (!form.value.department) return null;
-    return formCommision.find(c =>
-      c.department?.title === form.value.department
-    );
-  });
+const selectedCommission = computed(() => {
+  if (!form.value.department) return null;
+  return formCommision.find(c =>
+    c.department?.id === Number(form.value.department)
+  );
+});
   
   // Add a new activity row
   const addActivity = () => {
@@ -807,51 +818,49 @@
     // Recalculate total
     form.value.totalBonusAmount = totaltotal.value;
   };
-  
-  // Reset form to initial state
   const resetForm = () => {
-    form.value = {
+  form.value = {
+    name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
+    department: auth.user?.department?.id || '', // Department ID
+    departmentTitle: auth.user?.department?.title || '', // Department title
+    category: '',
+    totalBonusAmount: 0,
+    activities: [{
+      name: '',
+      bonusFee: 0,
+      amount: 0,
+      client: '',
+      total: 0,
+      references: [{ image: null, link: '' }]
+    }],
+    requestedBy: {
       name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
-      department: '',
-      category: '',
-      totalBonusAmount: 0,
-      activities: [{
-        name: '',
-        bonusFee: 0,
-        amount: 0,
-        client: '',
-        // feeCharge: 0,
-        total: 0,
-        references: [{ image: null, link: '' }]
-      }],
-      requestedBy: {
-        name: auth.user?.first_name + ' ' + auth.user?.last_name || '',
-        position: auth.user?.title || '',
-        id: auth.user?.id ? String(auth.user.id) : ''
-      },
-      checkedBy: {
-        id: '',
-        name: '',
-        position: ''
-      },
-      verifiedBy: {
-        id: '',
-        name: '',
-        position: ''
-      },
-      approvedBy: {
-        id: '',
-        name: '',
-        position: ''
-      },
-      reference: ''
-    };
-  
-    // Reset custom clients
-    customClients.value = [];
-    showNewClientInput.value = {};
-    newClientNames.value = {};
+      position: auth.user?.title || '',
+      id: auth.user?.id ? String(auth.user.id) : ''
+    },
+    checkedBy: {
+      id: '',
+      name: '',
+      position: ''
+    },
+    verifiedBy: {
+      id: '',
+      name: '',
+      position: ''
+    },
+    approvedBy: {
+      id: '',
+      name: '',
+      position: ''
+    },
+    reference: ''
   };
+
+  // Reset custom clients
+  customClients.value = [];
+  showNewClientInput.value = {};
+  newClientNames.value = {};
+};
   
   // Prepare data for API submission (only including IDs for approvers)
   const prepareFormData = (): KPISubmission => {
@@ -940,31 +949,30 @@
     }
   };
   
-  // Watch for department changes
-  watch(() => form.value.department, (newDepartment) => {
-    if (newDepartment) {
-      updateApprovers(newDepartment);
+// Modify onMounted to use department ID
+onMounted(() => {
+  logDebugInfo();
+
+  // If user department ID is available, select it by default
+  if (auth.user?.department?.id) {
+    const userDepartmentId = auth.user.department.id;
+    const matchingDept = formCommision.find(
+      commission => commission.department?.id === Number(userDepartmentId)
+    );
+
+    if (matchingDept) {
+      form.value.department = userDepartmentId;
+      form.value.departmentTitle = matchingDept.department?.title || '';
+      updateApprovers(userDepartmentId);
     }
-  });
-  
-  // Initialize component
-  onMounted(() => {
-    logDebugInfo();
-  
-    // If user department matches an available department, select it by default
-    if (auth.user?.departments?.text) {
-      const userDepartment = auth.user.departments.text;
-      const matchingDept = availableDepartments.value.find(
-        dept => dept.toLowerCase().trim() === userDepartment.toLowerCase().trim()
-      );
-  
-      if (matchingDept) {
-        form.value.department = matchingDept;
-        updateApprovers(matchingDept);
-      }
-    }
-  });
-  
+  }
+});
+  // Watch for department ID changes
+watch(() => form.value.department, (newDepartmentId) => {
+  if (newDepartmentId) {
+    updateApprovers(newDepartmentId);
+  }
+});
   definePageMeta({
     middleware: 'auth',
   });
