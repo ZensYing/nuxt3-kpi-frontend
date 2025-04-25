@@ -73,9 +73,9 @@
                   Departments
                 </p>
                 <div class="flex flex-wrap gap-1 mt-1">
-                  <span v-for="(dept, index) in formatDepartments(auth.user?.departments)" :key="index"
+                  <span
                     class="px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded-full dark:bg-gray-600 dark:text-gray-300">
-                    {{ dept }}
+                    {{ auth.user?.department?.title }}
                   </span>
                 </div>
                 <p class="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
@@ -185,7 +185,6 @@ onMounted(() => {
   if (auth.user) {
     firstName.value = auth.user.first_name;
     lastName.value = auth.user.last_name;
-    departments.value = Array.isArray(auth.user?.departments) ? auth.user.departments : [];
     roles.value = auth.user?.role.name ? [auth.user.role.name] : [];
     originalFirstName.value = auth.user.first_name;
     originalLastName.value = auth.user.last_name;

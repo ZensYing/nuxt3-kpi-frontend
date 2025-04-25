@@ -53,10 +53,10 @@
                 <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Departments</p>
               </div>
               <div class="flex flex-wrap gap-1.5">
-                <span v-for="(dept, index) in formatDepartments(auth.user?.departments)" :key="index"
+                <span 
                   class="px-2.5 py-1 text-xs bg-blue-50 text-blue-700 rounded-full dark:bg-blue-900/30 dark:text-blue-300 flex items-center gap-1">
                   <Icon icon="mdi:tag" class="w-3 h-3" />
-                  {{ dept }}
+                  {{ auth.user?.department?.title }}
                 </span>
               </div>
             </div>
@@ -206,7 +206,7 @@ onMounted(() => {
   if (auth.user) {
     firstName.value = auth.user.first_name;
     lastName.value = auth.user.last_name;
-    departments.value = Array.isArray(auth.user?.departments) ? auth.user.departments : [];
+    departments.value = Array.isArray(auth.user?.department) ? auth.user.department : [];
     roles.value = auth.user?.role.name ? [auth.user.role.name] : [];
     originalFirstName.value = auth.user.first_name;
     originalLastName.value = auth.user.last_name;
