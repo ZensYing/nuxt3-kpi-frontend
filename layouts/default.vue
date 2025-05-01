@@ -17,7 +17,56 @@
             :icon="theme === 'dark' ? 'line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition' : 'line-md:moon-filled-alt-to-sunny-filled-loop-transition'"
             class="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
-
+      
+        <!-- Notifications -->
+        <div class="relative" ref="notificationDropdownContainer">
+          <button @click="toggleNotificationDropdown" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors">
+            <div class="relative">
+              <Icon icon="mdi:bell" class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+              <span v-if="notifications.length > 0" class="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">{{ notifications.length }}</span>
+            </div>
+          </button>
+          
+          <!-- Notification Dropdown -->
+          <div v-if="notificationDropdownOpen"
+            class="absolute   right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 "  data-aos="fade-down">
+            <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+              <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-gray-900 dark:text-white">Notifications</h3>
+                <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full">
+                  {{ notifications.length }}
+                </span>
+              </div>
+            </div>
+            
+            <div v-if="notifications.length === 0" class="p-4 text-center text-gray-500 dark:text-gray-400">
+              No notifications
+            </div>
+            
+            <div v-else>
+              <div v-for="(notification, index) in notifications" :key="index" 
+                class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors cursor-pointer">
+                <div class="flex items-start">
+                  <div class="w-2 h-2 mt-1.5 bg-primary-500 rounded-full mr-3"></div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ notification.title }}</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                      {{ new Date(notification.date_created).toLocaleString() }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-3 text-center border-t border-gray-100 dark:border-gray-700">
+              <button class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
+                View all notifications
+              </button>
+            </div>
+          </div>
+        </div>
+         
+        
         <!-- Language Selector -->
         <div class="relative" ref="dropdownContainer">
           <button @click="toggleDropdown"
@@ -126,6 +175,9 @@
         </div>
       </div>
     </div>
+    
+  
+    
     <!-- Sidebar -->
     <aside :class="[
       'fixed top-0 left-0 h-full w-64 transition-transform duration-300 ease-in-out z-50 shadow-md',
@@ -152,9 +204,16 @@
       <!-- sidebar buttom -->
       <div class="absolute bottom-0 left-0 right-0 p-4">
         <InternetSpeed />
-      </div>
-      
 
+        <div class="mt-2 text-left">
+        <p class="text-xs text-gray-500 dark:text-gray-400">
+          BAKSEY Tech Solution © {{ new Date().getFullYear() }}
+        </p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+          Version 1.0
+        </p>
+      </div>
+      </div>
     </aside>
 
 
@@ -169,30 +228,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
 import { Icon } from '@iconify/vue'
 import useTheme from '~/composables/useTheme'
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '~/store/useAuthStore'
-import { computed } from 'vue'
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import { useInternetStatus } from '~/utils/useInternetStatus';
 import { usePermissions } from '~/composables/usePermissions'
+// Import notification type
+import type { IResponse } from '~/types/api';
+import type { INotification } from '~/types/notification';
+
 const { isSale, isAdmin } = usePermissions()
 
 
 
 // Use the Internet Status composable
-const { 
-  connectionStatus, 
-  connectionQuality, 
-  lastChecked, 
-  isOnline, 
-  pingTime, 
-  downloadSpeed, 
+const {
+  connectionStatus,
+  connectionQuality,
+  lastChecked,
+  isOnline,
+  pingTime,
+  downloadSpeed,
   isChecking,
-  getConnectionStatusColor, 
+  getConnectionStatusColor,
   getConnectionStatusIcon,
   checkInternetQuality
 } = useInternetStatus();
@@ -248,8 +310,54 @@ const formatDepartments = (departments: any) => {
 const { t, locale } = useI18n();
 const { theme } = useTheme()
 
+// Notifications
+const notifications = ref<INotification[]>([]);
+const notificationDropdownOpen = ref(false);
+const notificationDropdownContainer = ref<HTMLElement | null>(null);
 
+// Function to toggle notification dropdown
+const toggleNotificationDropdown = () => {
+  notificationDropdownOpen.value = !notificationDropdownOpen.value;
+  if (notificationDropdownOpen.value) {
+    // Close other dropdowns when opening notifications
+    userDropdownOpen.value = false;
+    dropdownOpen.value = false;
+  }
+};
 
+const closeNotificationDropdown = () => {
+  notificationDropdownOpen.value = false;
+};
+
+// Handle click outside for notification dropdown
+const handleNotificationClickOutside = (event: MouseEvent) => {
+  if (notificationDropdownContainer.value && !notificationDropdownContainer.value.contains(event.target as Node)) {
+    closeNotificationDropdown();
+  }
+};
+
+// Function to fetch notifications
+const fetchNotificationsData = async () => {
+  try {
+    const response = await (<Promise<IResponse<INotification[]>>>(
+      useApi(
+        `/items/notifications?filter[status]=published&sort=-date_created&fields=*`,
+        { method: 'GET' }
+      )
+    ));
+    notifications.value = response.data || [];
+  } catch (error) {
+    console.error('Failed to fetch notifications:', error);
+    notifications.value = [];
+  }
+};
+
+// Close all dropdowns
+const closeAllDropdowns = () => {
+  notificationDropdownOpen.value = false;
+  userDropdownOpen.value = false;
+  dropdownOpen.value = false;
+};
 
 const customToggleTheme = () => {
   const isDark = theme.value === 'dark'
@@ -280,6 +388,11 @@ const userDropdownContainer = ref<HTMLElement | null>(null)
 // Toggle user dropdown
 const toggleUserDropdown = () => {
   userDropdownOpen.value = !userDropdownOpen.value
+  if (userDropdownOpen.value) {
+    // Close other dropdowns when opening user dropdown
+    notificationDropdownOpen.value = false;
+    dropdownOpen.value = false;
+  }
 }
 const closeUserDropdown = () => {
   userDropdownOpen.value = false
@@ -313,14 +426,15 @@ onMounted(async () => {
   if (hasToken && !auth.user) {
     await auth.refresh()
   }
- 
+  
+  // Fetch notifications on mount
+  await fetchNotificationsData();
 })
 onMounted(() => {
   window.addEventListener('resize', handleResize)
 })
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
-
 })
 
 type LocaleKey = 'en' | 'km';
@@ -397,19 +511,18 @@ const switchLanguage = (newLocale: string) => {
     setFontClass(newLocale); // Update the font class
   }
 };
-// Create a computed array to dynamically return the correct language text
-// const localizedMenuItems = computed(() =>
-//   menuItems.map((item) => ({
-//     ...item,
-//     label: item.label[locale.value as LocaleKey], // Explicitly cast locale.value as a valid key
-//   }))
-// );
+
 const dropdownOpen = ref(false);
 const dropdownContainer = ref<HTMLElement | null>(null);
 
 // Toggle dropdown visibility
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
+  if (dropdownOpen.value) {
+    // Close other dropdowns when opening language dropdown
+    notificationDropdownOpen.value = false;
+    userDropdownOpen.value = false;
+  }
 };
 
 // Close dropdown when clicking outside
@@ -422,120 +535,15 @@ const handleClickOutside = (event: MouseEvent) => {
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
   document.addEventListener('click', handleUserClickOutside);
+  document.addEventListener('click', handleNotificationClickOutside);
 });
 
 // Clean up event listener when the component is destroyed
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
   document.removeEventListener('click', handleUserClickOutside);
+  document.removeEventListener('click', handleNotificationClickOutside);
 });
-
-// 
-
-// Computed property to check if the form is valid
-const hasChanges = computed(() => {
-  return (
-    firstName.value !== originalFirstName.value || // Check if first name has changed
-    lastName.value !== originalLastName.value || // Check if last name has changed
-    password.value.trim() !== '' || // Check if a new password has been entered
-    avatarFile.value !== null // Check if a new avatar file has been selected
-  );
-});
-// Function to handle avatar change
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
-const handleAvatarChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    const file = target.files[0];
-
-    // Check if the file exceeds the maximum allowed size
-    if (file.size > MAX_FILE_SIZE) {
-      Swal.fire({
-        icon: 'error',
-        title: 'រូបភាពធំពេក',
-        text: 'រូបភាពត្រូវមានទំហំតិចជាង 2MB ។ សូមជ្រើសរើសរូបភាពដទៃទៀតដែលមានទំហំតូចជាងនេះ។',
-        confirmButtonText: 'OK',
-      });
-      avatarFile.value = null; // Reset the file value
-      avatarPreview.value = null; // Reset the preview
-      return; // Exit the function to prevent further processing
-    }
-
-    avatarFile.value = file;
-
-    // Preview the selected avatar
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      avatarPreview.value = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
-// Function to update the profile
-const updateProfile = async () => {
-  if (password.value && password.value !== confirmPassword.value) {
-    Swal.fire({
-      icon: 'error',
-      title: 'លេខសម្ងាត់មិនដូចគ្នា',
-      text: 'លេខសម្ងាត់និងការបញ្ជាក់លេខសម្ងាត់មិនដូចគ្នា។ សូមពិនិត្យម្តងទៀត។',
-      confirmButtonText: 'OK',
-    });
-    return;
-  }
-  try {
-    // Show loading alert
-    Swal.fire({
-      title: 'Updating Profile...',
-      text: 'Please wait while your profile is being updated.',
-      icon: 'info',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
-    const updateData: {
-      first_name: string;
-      last_name: string;
-      password?: string;
-    } = {
-      first_name: firstName.value,
-      last_name: lastName.value,
-    };
-    // Include the password in the update only if it's provided
-    if (password.value.trim() !== '') {
-      updateData.password = password.value.trim();
-    }
-
-    // Call the store's updateUserProfile method with the update data and selected file
-    await auth.updateUserProfile(updateData, avatarFile.value || undefined);
-
-    // Store the active tab in sessionStorage
-    // sessionStorage.setItem("activeTab", "profile");
-
-    // Success alert
-    Swal.fire({
-      icon: 'success',
-      title: 'Profile Updated',
-      text: 'Your profile has been updated successfully.',
-      confirmButtonText: 'OK',
-    }).then(() => {
-      // Reload the page to apply changes and ensure the user stays on the profile tab
-      window.location.reload();
-    });
-  } catch (error) {
-    // Error alert
-    Swal.fire({
-      icon: 'error',
-      title: 'Update Failed',
-      text: 'There was an error updating your profile. Please try again.',
-      confirmButtonText: 'OK',
-    });
-  }
-};
-
-
 
 </script>
 
