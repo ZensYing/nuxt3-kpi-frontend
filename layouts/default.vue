@@ -7,50 +7,59 @@
         <button @click="toggleSidebar" class="focus:outline-none md:hidden" aria-label="Toggle Sidebar">
           <Icon :icon="isSidebarOpen ? 'mdi:close' : 'mdi:menu'" class="text-2xl" />
         </button>
-        <h1 class="text-xl font-bold md:hidden">BAKSEY System</h1>
+        <h1 class="text-xl font-bold md:hidden">BAKSEY Tech Solution</h1>
       </div>
-      <div class="flex space-x-3">
+      <div class="flex items-center space-x-4">
         <!-- Theme toggle -->
-        <button @click="customToggleTheme" class="p-2 rounded focus:outline-none hidden md:block">
-          <Icon :icon="theme === 'dark' ? 'mdi:weather-night' : 'mdi:weather-sunny'" class="w-6 h-6" />
+        <button @click="customToggleTheme"
+          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors hidden md:flex items-center justify-center">
+          <Icon
+            :icon="theme === 'dark' ? 'line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition' : 'line-md:moon-filled-alt-to-sunny-filled-loop-transition'"
+            class="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
+
+        <!-- Language Selector -->
         <div class="relative" ref="dropdownContainer">
           <button @click="toggleDropdown"
-            class="flex items-center px-2 py-1  rounded-lg border border-dashed border-black dark:border-light  dark:text-white focus:outline-none">
-            {{ locale === 'en' ? 'English' : 'Khmer' }}
-            <Icon icon="mdi:chevron-down" class="w-5 h-5 ml-2" />
+            class="flex items-center px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors focus:outline-none">
+            <span class="mr-1">{{ locale === 'en' ? 'English' : 'Khmer' }}</span>
+            <Icon icon="mdi:chevron-down" class="w-4 h-4" />
           </button>
           <div v-if="dropdownOpen"
-            class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600">
+            class="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden animate-fadeIn">
             <button @click="switchLanguage('en')" :class="[
-              'block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600',
-              locale === 'en' ? 'bg-gray-100 dark:bg-gray-600' : ''
+              'flex items-center w-full text-left px-4 py-2.5 text-sm transition-colors',
+              'hover:bg-gray-50 dark:hover:bg-gray-700',
+              locale === 'en' ? 'font-medium text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-700/50' : 'text-gray-700 dark:text-gray-300'
             ]">
+              <Icon icon="emojione-v1:flag-for-united-states" class="w-4 h-4 mr-2" />
               English
             </button>
             <button @click="switchLanguage('km')" :class="[
-              'block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600',
-              locale === 'km' ? 'bg-gray-100 dark:bg-gray-600' : ''
+              'flex items-center w-full text-left px-4 py-2.5 text-sm transition-colors',
+              'hover:bg-gray-50 dark:hover:bg-gray-700',
+              locale === 'km' ? 'font-medium text-primary-600 dark:text-primary-400 bg-gray-50 dark:bg-gray-700/50' : 'text-gray-700 dark:text-gray-300'
             ]">
+              <Icon icon="emojione-v1:flag-for-cambodia" class="w-4 h-4 mr-2" />
               Khmer
             </button>
           </div>
-
         </div>
+
         <!-- User Avatar Dropdown -->
         <div class="relative" ref="userDropdownContainer">
           <button @click="toggleUserDropdown" class="flex items-center focus:outline-none group">
             <div class="relative">
               <img :src="useImg(auth.user?.avatar || '/default-avatar.png')" alt="User Avatar"
-                class="w-10 h-10 rounded-full object-cover border-2 border-gray-200 transition-all duration-300 group-hover:border-primary-500 dark:border-gray-700 dark:group-hover:border-primary-400" />
+                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 transition-all duration-300 group-hover:border-primary-500 dark:border-gray-700 dark:group-hover:border-primary-400" />
               <div
-                class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-gray-800">
+                class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white dark:border-gray-800">
               </div>
             </div>
           </button>
 
           <div v-if="userDropdownOpen"
-            class="absolute right-0 mt-3 w-64 bg-white  rounded-xl shadow-lg border border-gray-100 dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-all duration-200 ease-in-out transform origin-top-right">
+            class="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-xl border border-gray-100 dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-all duration-200 ease-in-out transform origin-top-right animate-fadeIn">
             <div class="px-5 py-4">
               <div class="flex items-center space-x-3">
                 <img :src="useImg(auth.user?.avatar || '/default-avatar.png')" alt="User Avatar"
@@ -63,39 +72,41 @@
                     {{ auth.user?.email }}
                   </p>
                 </div>
-                <button @click="customToggleTheme" class="p-2 rounded focus:outline-none md:hidden">
-                  <Icon :icon="theme === 'dark' ? 'mdi:weather-night' : 'mdi:weather-sunny'" class="w-6 h-6" />
+                <button @click="customToggleTheme"
+                  class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none md:hidden ml-auto">
+                  <Icon :icon="theme === 'dark' ? 'mdi:weather-night' : 'mdi:weather-sunny'" class="w-5 h-5" />
                 </button>
               </div>
 
-              <div class="mt-3 py-2 px-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                <p class="text-xs font-medium text-gray-700 dark:text-gray-300">
-                  Departments
-                </p>
-                <div class="flex flex-wrap gap-1 mt-1">
+              <div class="mt-4 py-3 px-4 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                  <p class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    Department
+                  </p>
                   <span
                     class="px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded-full dark:bg-gray-600 dark:text-gray-300">
                     {{ auth.user?.department?.title }}
                   </span>
                 </div>
-                <p class="text-xs font-medium text-gray-700 dark:text-gray-300 mt-1">
-                  Role
-                </p>
-                <div class="flex flex-wrap gap-1 mt-1">
-                  <span v-for="(role, index) in formatDepartments(auth.user?.role.name)" :key="index"
-                    class="px-2 py-1 text-xs bg-blue-500 text-white rounded-full dark:bg-gray-600 dark:text-gray-300">
-                    {{ role }}
-                  </span>
+                <div class="flex items-center justify-between">
+                  <p class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    Role
+                  </p>
+                  <div class="flex flex-wrap gap-1">
+                    <span v-for="(role, index) in formatDepartments(auth.user?.role.name)" :key="index"
+                      class="px-2 py-1 text-xs bg-primary-500 text-dark dark:text-white rounded-full dark:bg-primary-600">
+                      {{ role }}
+                    </span>
+                  </div>
                 </div>
               </div>
-
             </div>
 
             <div class="border-t border-gray-100 dark:border-gray-700">
               <ul>
                 <li>
                   <NuxtLink to="/profile"
-                    class="flex items-center px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors duration-150"
+                    class="flex items-center px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/30 transition-colors duration-150"
                     @click="closeUserDropdown">
                     <Icon icon="mdi:account" class="text-lg mr-3 text-gray-500 dark:text-gray-400" />
                     Profile
@@ -113,7 +124,6 @@
             </div>
           </div>
         </div>
-        <!-- user avatar and dropdown -->
       </div>
     </div>
     <!-- Sidebar -->
@@ -139,7 +149,14 @@
           </ul>
         </nav>
       </div>
+      <!-- sidebar buttom -->
+      <div class="absolute bottom-0 left-0 right-0 p-4">
+        <InternetSpeed />
+      </div>
+      
+
     </aside>
+
 
     <!-- Overlay for mobile -->
     <div v-if="isSidebarOpen" @click="closeSidebar" class="fixed inset-0 bg-black/50 z-40 md:hidden"></div>
@@ -160,9 +177,26 @@ import { useAuthStore } from '~/store/useAuthStore'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-
+import { useInternetStatus } from '~/utils/useInternetStatus';
 import { usePermissions } from '~/composables/usePermissions'
 const { isSale, isAdmin } = usePermissions()
+
+
+
+// Use the Internet Status composable
+const { 
+  connectionStatus, 
+  connectionQuality, 
+  lastChecked, 
+  isOnline, 
+  pingTime, 
+  downloadSpeed, 
+  isChecking,
+  getConnectionStatusColor, 
+  getConnectionStatusIcon,
+  checkInternetQuality
+} = useInternetStatus();
+
 
 const auth = useAuthStore()
 const router = useRouter();
@@ -274,18 +308,19 @@ const handleResize = () => {
   }
 }
 
-onMounted(() => {
-  window.addEventListener('resize', handleResize)
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-})
-
 onMounted(async () => {
   const hasToken = !!localStorage.getItem('refresh_token')
   if (hasToken && !auth.user) {
     await auth.refresh()
   }
+ 
+})
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+
 })
 
 type LocaleKey = 'en' | 'km';
@@ -499,6 +534,9 @@ const updateProfile = async () => {
     });
   }
 };
+
+
+
 </script>
 
 <style scoped>
