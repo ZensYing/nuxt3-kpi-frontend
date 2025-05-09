@@ -17,7 +17,7 @@
             :icon="theme === 'dark' ? 'line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition' : 'line-md:moon-filled-alt-to-sunny-filled-loop-transition'"
             class="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
-      
+        
         <!-- Notifications -->
         <div class="relative" ref="notificationDropdownContainer">
           <button @click="toggleNotificationDropdown" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors">
@@ -29,7 +29,7 @@
           
           <!-- Notification Dropdown -->
           <div v-if="notificationDropdownOpen"
-            class="absolute   right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 "  data-aos="fade-down">
+            class="absolute   right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 " v-motion-fade-visible-once >
             <div class="p-4 border-b border-gray-100 dark:border-gray-700">
               <div class="flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900 dark:text-white">Notifications</h3>
@@ -463,6 +463,12 @@ const menuItems = [
     to: '/dashboard/monthly-ads-video-tracker',
     icon: 'mdi:currency-usd',
     label: { en: 'Monthly Video Ads Tracker', km: 'កម្មវិធីតាមដានការផ្សាយពាណិជ្ជកម្មវីដេអូប្រចាំខែ' }
+  },
+  // Track Performance Staff
+  {
+    to: '/dashboard/track-performance-staff',
+    icon: 'mdi:account-check',
+    label: { en: 'Track Performance Staff', km: 'តាមដានការប្រកួតប្រជែងរបស់បុគ្គលិក' }
   },
   // {
   //   to: '/dashboard/reports',
