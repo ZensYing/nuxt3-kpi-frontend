@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     const response = await $fetch(`https://graph.facebook.com/v22.0/${videoId}`, {
       params: {
         fields: 'id,title,views,post_views,created_time,post_id',
-        access_token:'EAAKCHp5sijABOw4qMap4t8QIccCRlZCUDPsaLrq9jxzoOaTjz1O5svFKt3yZCTKfkgbn4vukuZALPZCOCtXZAQFqit2EUP9ZAzFYc7wXAnLOZBr2KZCDlnonas2tDpOj9VsVkmfqoJ5Qlpc3wJR9CoLCRRkMRlvYEkeJgFXaDC5wVQvA3bUGJCZADTGFkPZAOLlZBPZAqk8zWZBPUeZCAbiu2t7G4o7N5rRkoO4ZBPuWYhhe4sZD'
+        access_token:'EAAKCHp5sijABO2D5CMtYvV5zyLfGZBHmNWUGR5OpC7DQKKJkZAY0HBXU80KrpjSrQFcQiuLnzy0M4egPhpfuMqvbXbuDgcxrmktnftbWZAsheaPqbojDxRUzpZBuwIz3kcFRhZB7qYqW7nnS1X1rujAm2TKDZBpwF2oQGlZAGhWgZBBEIZA3jqCkw6aTcim2CY8wyhS1IOTwvhRtuDZCRT5E8USB3cCNao1y1RoPQjhIwZD'
       }
     });
     
