@@ -526,7 +526,9 @@ const fetchCreators = async () => {
     loading.value = false;
   }
 };
-
+definePageMeta({
+    middleware: 'auth',
+  });
 onMounted(async () => {
   await fetchCreators();
 });
