@@ -42,11 +42,14 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    facebook: {
+      appId: process.env.FACEBOOK_APP_ID,
+      appSecret: process.env.FACEBOOK_APP_SECRET,
+      pageId: process.env.FACEBOOK_PAGE_ID,
+      accessToken: process.env.FACEBOOK_ACCESS_TOKEN,
+    },
     public: {
       API_BASE_URL: process.env.API_BASE_URL ,
-      facebookApiToken: process.env.FACEBOOK_API_TOKEN,
-      facebookAppId: process.env.FACEBOOK_APP_ID
-
     },
   },
 
