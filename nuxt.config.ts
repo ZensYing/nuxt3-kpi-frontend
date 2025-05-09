@@ -44,6 +44,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL ,
+      facebookApiToken: process.env.FACEBOOK_API_TOKEN,
+      facebookAppId: process.env.FACEBOOK_APP_ID
 
     },
   },
