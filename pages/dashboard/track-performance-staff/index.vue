@@ -144,15 +144,11 @@
         </div>
 
         <!-- Performance Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-indigo-500">
             <p class="text-sm text-gray-500 dark:text-gray-400">Total Videos</p>
             <div class="flex items-center mt-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500 mr-3" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
+              <Icon icon="fluent-color:video-16" class="h-8 w-8 text-indigo-500 mr-3"  />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalVideosCount(creators) }}</span>
             </div>
           </div>
@@ -160,39 +156,15 @@
           <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-emerald-500">
             <p class="text-sm text-gray-500 dark:text-gray-400">Total Views</p>
             <div class="flex items-center mt-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+              <Icon icon="icon-park:preview-open" class="h-8 w-8 text-emerald-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{
                 formatNumber(getTotalViewsAcrossAll(creators)) }}</span>
             </div>
           </div>
-
-          <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-amber-500">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Active Creators</p>
-            <div class="flex items-center mt-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500 mr-3" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getActiveCreatorsCount(creators)
-              }}</span>
-            </div>
-          </div>
-
           <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-rose-500">
             <p class="text-sm text-gray-500 dark:text-gray-400">Completed Targets</p>
             <div class="flex items-center mt-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-500 mr-3" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3"  />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators)
               }}</span>
             </div>
@@ -204,6 +176,27 @@
           <div class="p-5 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Staff Performance</h2>
             <p class="text-sm text-gray-500 dark:text-gray-400">Track video engagement metrics for each team member</p>
+          </div>
+          <!-- Add this button after the Performance Summary Cards section -->
+          <div class="flex justify-end mb-4 mt-2">
+            <button @click="refreshAllVideos"
+              class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg"
+              :disabled="globalRefreshLoading">
+              <span v-if="globalRefreshLoading" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                  </path>
+                </svg>
+                Refreshing All Videos...
+              </span>
+              <span v-else class="flex items-center">
+                <Icon icon="ion:refresh-circle" class="h-5 w-5 mr-2"  />
+                Reload views
+              </span>
+            </button>
           </div>
 
           <div class="overflow-x-auto">
@@ -274,6 +267,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -300,6 +294,7 @@ import { formatDate, formatNumber, formatTotalViews, getKpiDateHeaders } from '~
 const auth = useAuthStore();
 const router = useRouter();
 const loading = ref(false);
+const globalRefreshLoading = ref(false);
 
 // Facebook video integration
 const { videoData: fbVideoData, loading: fbLoading, error: fbError, fetchVideoData } = useFacebookVideo();
@@ -427,8 +422,7 @@ const getUserName = (staffId: string): string => {
   return staffMembers.value[staffId] || 'Unknown';
 };
 
-// Handle remark click
-// Removed duplicate declaration of handleRemarkClick
+
 
 // Fetch creators data
 const fetchCreators = async () => {
@@ -593,19 +587,13 @@ const editVideo = async (remark: any) => {
       </div>
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 mb-1">Facebook Video URL</label>
-        <input id="swal-url" class="w-full p-2 border rounded" value="${remark.video_link || ''}">
+        <input id="swal-url" class="w-full p-2 border rounded" readonly value="${remark.video_link || ''}">
       </div>
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 mb-1">View Count</label>
-        <input id="swal-views" class="w-full p-2 border rounded" value="${remark.view || '0'}">
+        <input id="swal-views" class="w-full p-2 border rounded"  disabled value="${remark.view || '0'}">
       </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-        <select id="swal-status" class="w-full p-2 border rounded">
-          <option value="active" ${remark.status === 'active' ? 'selected' : ''}>Active</option>
-          <option value="inactive" ${remark.status === 'inactive' ? 'selected' : ''}>Inactive</option>
-        </select>
-      </div>
+     
     `,
     focusConfirm: false,
     showCancelButton: true,
@@ -619,7 +607,13 @@ const editVideo = async (remark: any) => {
       };
     }
   });
-
+//  <div class="mb-4">
+//         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+//         <select id="swal-status" class="w-full p-2 border rounded">
+//           <option value="active" ${remark.status === 'active' ? 'selected' : ''}>Active</option>
+//           <option value="inactive" ${remark.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+//         </select>
+//       </div>
   if (formValues) {
     return await updateVideo(remark.id, formValues);
   }
@@ -640,32 +634,32 @@ const handleRemarkClick = (creator: ICreator) => {
 
   const creatorName = getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name);
 
+  // <!-- Modify the handleRemarkClick function's HTML output to include a refresh button -->
   const remarksList = creator.remarks.map(r =>
     `<div class="mb-4 p-3 border-b">
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="font-bold">${r.title}</p>
-          <p class="text-sm break-words">
-            <a href="${r.video_link}" target="_blank" class="text-blue-600 hover:underline">${r.video_link}</a>
-          </p>
-          <p class="mt-2"><b>Views:</b> ${formatNumber(r.view)}</p>
-          <p class="text-xs mt-1"><b>Status:</b> 
-            <span class="${r.status === 'active' ? 'text-green-600' : 'text-red-600'}">${r.status}</span>
-          </p>
-        </div>
-        <div class="flex flex-col space-y-2">
-          <button onclick="window.editRemark('${r.id}')" class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600">
-            Edit
-          </button>
-          <button onclick="window.deleteRemark('${r.id}', '${creatorName}', '${r.title.replace(/'/g, "\\'")}')" 
-            class="px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
-            Delete
-          </button>
-        </div>
+    <div class="flex justify-between items-start">
+      <div>
+        <p class="font-bold">${r.title}</p>
+        <p class="text-sm break-words">
+          <a href="${r.video_link}" target="_blank" class="text-blue-600 hover:underline">${r.video_link}</a>
+        </p>
+        <p class="mt-2"><b>Views:</b> ${formatNumber(r.view)}</p>
+        <p class="text-xs mt-1"><b>Status:</b> 
+          <span class="${r.status === 'active' ? 'text-green-600' : 'text-red-600'}">${r.status}</span>
+        </p>
       </div>
-    </div>`
+      <div class="flex flex-col space-y-2">
+        <button onclick="window.editRemark('${r.id}')" class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600">
+          Edit
+        </button>
+        <button onclick="window.deleteRemark('${r.id}', '${creatorName}', '${r.title.replace(/'/g, "\\'")}')" 
+          class="px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>`
   ).join('');
-
   // Create global handlers for the edit and delete buttons
   window.editRemark = async (remarkId: string) => {
     const remark = creator.remarks?.find(r => r.id.toString() === remarkId);
@@ -702,8 +696,146 @@ declare global {
   interface Window {
     editRemark: (remarkId: string) => Promise<void>;
     deleteRemark: (remarkId: string, creatorName: string, videoTitle: string) => Promise<void>;
+    refreshViewCount: (remarkId: string) => Promise<void>;
   }
 }
+
+
+// Function to handle form submission
+
+// Function to refresh all videos for all creators
+const refreshAllVideos = async () => {
+  try {
+    globalRefreshLoading.value = true;
+
+    // Show loading toast
+    const toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 0,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+
+    toast.fire({
+      icon: 'info',
+      title: 'Refreshing all video view counts...'
+    });
+
+    // Collect all remarks from all creators
+    const allRemarks = [];
+    for (const creator of creators.value) {
+      if (creator.remarks && creator.remarks.length > 0) {
+        allRemarks.push(...creator.remarks);
+      }
+    }
+
+    if (allRemarks.length === 0) {
+      Swal.fire({
+        title: 'No Videos',
+        text: 'No video data available to refresh',
+        icon: 'info'
+      });
+      return;
+    }
+
+    // Track progress
+    let successCount = 0;
+    let errorCount = 0;
+    let skippedCount = 0;
+    const totalCount = allRemarks.length;
+
+    // Update status message
+    const updateStatus = (current: number, total: number) => {
+      toast.update({
+        title: `Refreshing videos (${current}/${total})...`,
+        html: `<div class="text-xs mt-1">
+                 Success: ${successCount} | Errors: ${errorCount} | Skipped: ${skippedCount}
+               </div>`
+      });
+    };
+
+    // Process each remark sequentially to avoid API rate limits
+    for (let i = 0; i < allRemarks.length; i++) {
+      const remark = allRemarks[i];
+      updateStatus(i + 1, totalCount);
+
+      // Extract the video ID from the link
+      const videoId = extractVideoId(remark.video_link);
+      if (!videoId) {
+        console.warn(`Invalid URL for video: ${remark.title}`);
+        skippedCount++;
+        continue;
+      }
+
+      try {
+        // Fetch the latest video data from Facebook
+        await fetchVideoData(videoId);
+
+        if (fbError.value || !fbVideoData.value || !fbVideoData.value.views) {
+          console.warn(`Couldn't get view count for: ${remark.title}`);
+          errorCount++;
+          continue;
+        }
+
+        const oldViewCount = parseInt(remark.view ?? '') || 0;
+        const newViewCount = parseInt(fbVideoData.value.views.toString()) || 0;
+
+        // Only update if the view count has changed
+        if (newViewCount !== oldViewCount) {
+          // Update the record with the new view count
+          await useApi(`/items/remark_link/${remark.id}`, {
+            method: 'PATCH',
+            data: { view: newViewCount.toString() }
+          });
+          successCount++;
+        } else {
+          skippedCount++;
+        }
+
+        // Small delay to prevent API throttling
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+      } catch (error) {
+        console.error(`Error refreshing view count for ${remark.title}:`, error);
+        errorCount++;
+      }
+    }
+
+    // Refresh creator data to reflect the changes
+    await fetchCreators();
+
+    // Show completion message
+    Swal.fire({
+      title: 'Refresh Complete',
+      html: `<div class="space-y-2">
+              <p>Processed ${totalCount} videos:</p>
+              <div class="flex justify-between px-4">
+                <span class="text-green-600">Updated: ${successCount}</span>
+                <span class="text-yellow-600">Skipped: ${skippedCount}</span>
+                <span class="text-red-600">Errors: ${errorCount}</span>
+              </div>
+            </div>`,
+      icon: 'success'
+    });
+
+  } catch (error: any) {
+    console.error('Failed to refresh videos:', error);
+    Swal.fire({
+      title: 'Error',
+      text: error?.data?.message || 'Failed to refresh videos',
+      icon: 'error'
+    });
+  } finally {
+    globalRefreshLoading.value = false;
+  }
+};
+// Function to handle form submission
+
 
 definePageMeta({
   middleware: 'auth',
