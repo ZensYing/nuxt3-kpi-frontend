@@ -1,18 +1,6 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950 py-10">
     <div class="container mx-auto px-4 max-w-6xl">
-      <!-- Page Header -->
-      <div class="mb-8 text-center">
-        <h1 class="text-3xl font-bold mb-2 text-indigo-800 dark:text-indigo-300">
-          <span class="inline-block bg-indigo-100 dark:bg-indigo-900/50 px-4 py-2 rounded-lg">
-            Performance Tracker
-          </span>
-        </h1>
-        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Track and analyze Facebook video performance metrics for your team
-        </p>
-      </div>
-
       <div class="grid grid-cols-1 gap-8">
         <!-- Facebook Video Form -->
         <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 border border-indigo-100 dark:border-indigo-900">
@@ -90,7 +78,7 @@
               
               <button type="button" @click="fetchFromFacebook"
                 class="w-full sm:w-auto bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-300 px-6 py-3 rounded-lg transition-all flex items-center justify-center shadow-sm hover:shadow-md"
-                :disabled="!isValidVideoInput || fbLoading">
+                :disabled="!videoUrl">
                 <span v-if="fbLoading" class="flex items-center">
                   <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-indigo-600"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -148,7 +136,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalVideosCount() }}</span>
+              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalVideosCount(creators) }}</span>
             </div>
           </div>
           
@@ -159,7 +147,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalViewsAcrossAll() }}</span>
+              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ formatNumber(getTotalViewsAcrossAll(creators)) }}</span>
             </div>
           </div>
           
@@ -169,7 +157,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getActiveCreatorsCount() }}</span>
+              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getActiveCreatorsCount(creators) }}</span>
             </div>
           </div>
           
@@ -177,9 +165,9 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Completed Targets</p>
             <div class="flex items-center mt-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount() }}</span>
+              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators) }}</span>
             </div>
           </div>
         </div>
@@ -254,7 +242,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -262,7 +249,21 @@ import Swal from 'sweetalert2';
 import { useAuthStore } from '~/store/useAuthStore';
 import { useFacebookVideo } from '~/composables/useFacebookVideo';
 import type { IResponse } from '~/types/api';
-import type { FacebookVideoData } from '~/types/facebook';
+import { 
+  getTotalViews, 
+  isCompleted, 
+  calculatePercent, 
+  getPercentClass, 
+  getProgressBarColor,
+  getCompletedTargetsCount,
+  getActiveCreatorsCount,
+  getTotalViewsAcrossAll,
+  getTotalVideosCount
+} from '~/utils/creators';
+
+// Import utility functions
+import { extractVideoId, isValidVideoInput, buildFacebookVideoUrl } from '~/utils/facebook';
+import { formatDate, formatNumber, formatTotalViews, getKpiDateHeaders } from '~/utils/format';
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -273,36 +274,6 @@ const { videoData: fbVideoData, loading: fbLoading, error: fbError, fetchVideoDa
 const videoUrl = ref('');
 const videoTitle = ref('');
 const selectedCreator = ref('');
-
-// Calculate if video URL or ID is valid for fetching
-const isValidVideoInput = computed(() => {
-  if (!videoUrl.value) return false;
-  return true;
-});
-
-// Extract video ID from Facebook URL or use direct ID
-const extractVideoId = (url: string): string => {
-  // Handle direct ID input
-  if (/^\d+$/.test(url)) {
-    return url;
-  }
-
-  // Handle various Facebook URL formats
-  const patterns = [
-    /facebook\.com\/watch\?v=(\d+)/,
-    /facebook\.com\/.*\/videos\/(\d+)/,
-    /fb\.watch\/(\d+)/
-  ];
-
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-  }
-
-  return '';
-};
 
 // Fetch video data from Facebook
 const fetchFromFacebook = async () => {
@@ -410,30 +381,6 @@ const addVideoData = async () => {
   }
 };
 
-interface IRemark {
-  id: number;
-  status: string;
-  title: string;
-  video_link: string;
-  view: string | null;
-  creators: number;
-}
-
-interface ICreator {
-  id: number;
-  status: string;
-  staff: string;
-  target: string;
-  remarks: IRemark[];
-  user_created: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    department: string | null;
-  };
-  note?: string;
-}
-
 const creators = ref<ICreator[]>([]);
 const staffMembers = ref<Record<string, string>>({});
 
@@ -441,111 +388,11 @@ const creatorsList = computed(() => {
   return creators.value;
 });
 
-// Date calculation for KPI period headers
-const getKpiDateHeaders = () => {
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
-
-  // Previous month (for the range start)
-  const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-  const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-
-  // Format month names
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'];
-
-  // For the date range header: 23rd of previous month to 11th of current month
-  const dateRangeHeader = `23(${monthNames[prevMonth].substring(0, 3)})-11th(${monthNames[currentMonth].substring(0, 3)})`;
-
-  // For the total views header: "Total Amount Views on 23 Current Month"
-  const totalViewsHeader = `Total Amount Views on 23 ${monthNames[currentMonth]}`;
-
-  return { dateRangeHeader, totalViewsHeader };
-};
-
 const { dateRangeHeader, totalViewsHeader } = getKpiDateHeaders();
-
-// Format date for display
-const formatDate = (dateString: string | undefined): string => {
-  if (!dateString) return 'N/A';
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
-};
-
-// Function to format large numbers
-const formatNumber = (num: string | null): string => {
-  if (!num) return '0';
-  const value = parseInt(num);
-  if (value >= 1000000) {
-    return (value / 1000000).toFixed(0) + 'M';
-  }
-  return value.toLocaleString();
-};
 
 // Get formatted name for a staff member
 const getUserName = (staffId: string): string => {
   return staffMembers.value[staffId] || 'Unknown';
-};
-
-// Calculate total views from remarks
-const getTotalViews = (remarks: IRemark[]): string => {
-  if (!remarks || remarks.length === 0) return '0';
-
-  let total = 0;
-  remarks.forEach(remark => {
-    if (remark.view) {
-      total += parseInt(remark.view);
-    }
-  });
-
-  return total.toString();
-};
-
-// Format total views for display
-const formatTotalViews = (views: string): string => {
-  const viewsNum = parseInt(views);
-  if (viewsNum >= 1000000) {
-    return (viewsNum / 1000000).toFixed(2) + 'M';
-  }
-  return viewsNum.toLocaleString();
-};
-
-// Check if target is completed
-const isCompleted = (creator: ICreator): boolean => {
-  if (creator.status === 'completed') return true;
-
-  const totalViews = parseInt(getTotalViews(creator.remarks) || '0');
-  const target = parseInt(creator.target || '0');
-
-  return totalViews >= target;
-};
-
-// Calculate percentage of target achieved
-const calculatePercent = (creator: ICreator): number => {
-  const totalViews = parseInt(getTotalViews(creator.remarks) || '0');
-  const target = parseInt(creator.target || '0');
-
-  if (target === 0) return 0;
-  return Math.round((totalViews / target) * 100);
-};
-
-// Function to determine styling for percentage values
-const getPercentClass = (percent: number) => {
-  if (percent >= 100) return 'text-green-600 font-bold';
-  if (percent >= 75) return 'text-blue-600 font-bold';
-  return 'text-pink-600 font-bold';
-};
-
-// Function to determine progress bar color
-const getProgressBarColor = (percent: number) => {
-  if (percent >= 100) return 'bg-green-600';
-  if (percent >= 75) return 'bg-blue-600';
-  return 'bg-pink-600';
 };
 
 // Handle remark click
@@ -573,30 +420,6 @@ const handleRemarkClick = (creator: ICreator) => {
     width: '600px',
     confirmButtonText: 'Close'
   });
-};
-
-// Calculate the total number of completed targets
-const getCompletedTargetsCount = (): number => {
-  return creators.value.filter(isCompleted).length;
-};
-
-// Calculate the total number of active creators
-const getActiveCreatorsCount = (): number => {
-  return creators.value.filter(creator => creator.status === 'active').length;
-};
-
-// Calculate the total views across all creators
-const getTotalViewsAcrossAll = (): string => {
-  let totalViews = 0;
-  creators.value.forEach(creator => {
-    totalViews += parseInt(getTotalViews(creator.remarks) || '0');
-  });
-  return formatNumber(totalViews.toString());
-};
-
-// Calculate the total number of videos
-const getTotalVideosCount = (): number => {
-  return creators.value.reduce((total, creator) => total + (creator.remarks?.length || 0), 0);
 };
 
 // Fetch creators data
@@ -633,9 +456,11 @@ const fetchCreators = async () => {
     loading.value = false;
   }
 };
+
 definePageMeta({
   middleware: 'auth',
 });
+
 onMounted(async () => {
   await fetchCreators();
 });
