@@ -438,7 +438,14 @@ onUnmounted(() => {
 })
 
 type LocaleKey = 'en' | 'km';
-const menuItems = [
+interface MenuItem {
+  to: string;
+  icon: string;
+  label: { en: string; km: string };
+  role?: string | string[];
+}
+
+const menuItems: MenuItem[] = [
   {
     to: '/',
     icon: 'mdi:view-dashboard',
@@ -476,29 +483,46 @@ const menuItems = [
   //   label: { en: 'Reports', km: 'របាយការណ៍' }
   // },
   // for sales only 
+
+  {
+    to: '/dashboard/ads',
+    icon: 'hugeicons:advertisement',
+    label: { en: 'Ads', km: 'ការផ្សាយពាណិជ្ជកម្ម' },
+    role: ['admin', 'sales'] // Set multiple roles here 
+  },
+  
   {
     to: '/dashboard/commissions',
     icon: 'mdi:cash',
     label: { en: 'Commissions', km: 'កម្រៃជើងសារ' },
-    role: 'sales'
+    role: ['admin', 'sales']
   },
   // clients
   {
     to: '/dashboard/clients',
     icon: 'mdi:account-multiple',
     label: { en: 'Clients', km: 'អតិថិជន' },
-    role: 'sales'
+    role: ['admin', 'sales']
   },
 
 ]
-
 
 const localizedMenuItems = computed(() =>
   menuItems
     .filter(item => {
       if (!item.role) return true // Public item
-      if (item.role === 'sales') return isSale.value
-      if (item.role === 'admin') return isAdmin.value
+      if (typeof item.role === 'string') {
+        // Single role check
+        if (item.role === 'sales') return isSale.value
+        if (item.role === 'admin') return isAdmin.value
+      } else if (Array.isArray(item.role)) {
+        // Multiple roles check (user can have any of the roles)
+        return item.role.some(role => {
+          if (role === 'sales') return isSale.value
+          if (role === 'admin') return isAdmin.value
+          return false
+        })
+      }
       return false
     })
     .map((item) => ({
@@ -506,7 +530,6 @@ const localizedMenuItems = computed(() =>
       label: item.label[locale.value as LocaleKey]
     }))
 );
-
 // 
 const { setFontClass } = useI18nConfig();
 

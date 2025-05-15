@@ -175,7 +175,7 @@ const getInitials = (firstName: string, lastName: string) => {
 onMounted(async () => {
   isLoading.value = true;
   try {
-    const res = await useApi<{ data: User[] }>('/users?fields=*,role.name,departments', {
+    const res = await useApi<{ data: User[] }>('/users?fields=*,role.name,department', {
       method: 'GET'
     });
     users.value = res.data;
