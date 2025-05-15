@@ -143,7 +143,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-
+definePageMeta({
+  middleware: 'auth',
+});
 // Define the Advertisement interface
 interface Advertisement {
   name: string;

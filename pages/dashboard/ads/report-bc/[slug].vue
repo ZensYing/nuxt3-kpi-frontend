@@ -186,7 +186,9 @@ import { useRoute } from 'vue-router';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
-
+definePageMeta({
+  middleware: 'auth',
+});
 const config = useRuntimeConfig();
 const apiBaseUrl = 'https://business-cambodia.com/cms';
 
