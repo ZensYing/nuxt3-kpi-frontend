@@ -241,7 +241,7 @@ import { usePermissions } from '~/composables/usePermissions'
 import type { IResponse } from '~/types/api';
 import type { INotification } from '~/types/notification';
 
-const { isSale, isAdmin } = usePermissions()
+const { isSale, isAdmin,isHr } = usePermissions()
 
 
 
@@ -488,7 +488,7 @@ const menuItems: MenuItem[] = [
     to: '/dashboard/ads',
     icon: 'hugeicons:advertisement',
     label: { en: 'Ads', km: 'ការផ្សាយពាណិជ្ជកម្ម' },
-    role: ['admin', 'sales'] // Set multiple roles here 
+    role: ['admin', 'sales', 'hr'] // Set multiple roles here 
   },
   
   {
@@ -515,11 +515,13 @@ const localizedMenuItems = computed(() =>
         // Single role check
         if (item.role === 'sales') return isSale.value
         if (item.role === 'admin') return isAdmin.value
+        if (item.role === 'hr') return isHr.value
       } else if (Array.isArray(item.role)) {
         // Multiple roles check (user can have any of the roles)
         return item.role.some(role => {
           if (role === 'sales') return isSale.value
           if (role === 'admin') return isAdmin.value
+          if (role === 'hr') return isHr.value
           return false
         })
       }
