@@ -19,7 +19,12 @@ export interface ICreator {
     id: string;
     first_name: string;
     last_name: string;
-    department: string | null;
+    department: 
+    {
+      title: string;
+    };
+    title: string | null;
+    
   };
   note?: string;
 }

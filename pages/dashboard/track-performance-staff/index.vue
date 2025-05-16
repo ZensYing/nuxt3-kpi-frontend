@@ -6,11 +6,7 @@
         <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 border border-indigo-100 dark:border-indigo-900">
           <div class="flex items-center mb-6">
             <div class="mr-3 bg-indigo-100 dark:bg-indigo-900 p-2 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
+              <Icon icon="basil:add-solid" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
             </div>
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Add Facebook Video</h2>
           </div>
@@ -23,11 +19,7 @@
                 </label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="currentColor"
-                      viewBox="0 0 24 24">
-                      <path
-                        d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02z" />
-                    </svg>
+                    <Icon icon="logos:facebook" class="h-5 w-5 text-gray-400" />
                   </div>
                   <input v-model="videoUrl" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
@@ -60,24 +52,14 @@
 
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
               <button type="submit"
-                class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg"
+                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg"
                 :disabled="loading || fbLoading">
                 <span v-if="loading || fbLoading" class="flex items-center">
-                  <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                  </svg>
+                  <Icon icon="basil:add-solid" class="h-6 w-6 text-white dark:text-indigo-400" />
                   Processing...
                 </span>
                 <span v-else class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
+                  <Icon icon="basil:add-solid" class="h-6 w-6 text-white dark:text-indigo-400" />
                   Add Video
                 </span>
               </button>
@@ -86,21 +68,11 @@
                 class="w-full sm:w-auto bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-300 px-6 py-3 rounded-lg transition-all flex items-center justify-center shadow-sm hover:shadow-md"
                 :disabled="!videoUrl">
                 <span v-if="fbLoading" class="flex items-center">
-                  <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                  </svg>
+                  <Icon icon="line-md:download-loop" class="h-5 w-5 mr-2" />
                   Fetching...
                 </span>
                 <span v-else class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
+                  <Icon icon="line-md:download-loop" class="h-5 w-5 mr-2" />
                   Fetch Data
                 </span>
               </button>
@@ -148,7 +120,7 @@
           <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-indigo-500">
             <p class="text-sm text-gray-500 dark:text-gray-400">Total Videos</p>
             <div class="flex items-center mt-2">
-              <Icon icon="fluent-color:video-16" class="h-8 w-8 text-indigo-500 mr-3"  />
+              <Icon icon="fluent-color:video-16" class="h-8 w-8 text-indigo-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalVideosCount(creators) }}</span>
             </div>
           </div>
@@ -164,9 +136,9 @@
           <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 border-l-4 border-rose-500">
             <p class="text-sm text-gray-500 dark:text-gray-400">Completed Targets</p>
             <div class="flex items-center mt-2">
-              <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3"  />
+              <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators)
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -178,7 +150,7 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Track video engagement metrics for each team member</p>
           </div>
           <!-- Add this button after the Performance Summary Cards section -->
-          <div class="flex justify-end mb-4 mt-2">
+          <div class="flex justify-end space-x-2 mb-4 mt-2">
             <button @click="refreshAllVideos"
               class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg"
               :disabled="globalRefreshLoading">
@@ -193,10 +165,41 @@
                 Refreshing All Videos...
               </span>
               <span v-else class="flex items-center">
-                <Icon icon="ion:refresh-circle" class="h-5 w-5 mr-2"  />
+                <Icon icon="ion:refresh-circle" class="h-5 w-5 mr-2" />
                 Reload views
               </span>
             </button>
+            <div class="relative">
+              <button @click="isExportDropdownOpen = !isExportDropdownOpen"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg">
+                <span class="flex items-center">
+                  <Icon icon="material-symbols:download" class="h-5 w-5 mr-2" />
+                  Export Data
+                  <Icon icon="material-symbols:arrow-drop-down" class="h-5 w-5 ml-1" />
+                </span>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <div v-if="isExportDropdownOpen"
+                class="absolute right-0 mt-2  w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div class="py-1">
+                  <button @click="exportToCSV(); isExportDropdownOpen = false"
+                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="flex items-center">
+                      <Icon icon="mdi:file-delimited-outline" class="h-5 w-5 mr-2" />
+                      Export Summary CSV
+                    </span>
+                  </button>
+                  <button @click="exportDetailedCSV(); isExportDropdownOpen = false"
+                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="flex items-center">
+                      <Icon icon="mdi:file-delimited-outline" class="h-5 w-5 mr-2" />
+                      Export Detailed CSV
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
@@ -221,8 +224,8 @@
                   <td class="py-4 px-6 font-medium text-gray-800 dark:text-white">
                     {{ getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name) }}
                   </td>
-                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ auth.user?.title || 'N/A' }}</td>
-                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ auth.user?.department?.title || 'N/A' }}
+                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator.user_created?.title || 'N/A' }}</td>
+                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator?.user_created.department.title|| 'N/A' }}
                   </td>
                   <td class="py-4 px-6 font-medium">{{ formatNumber(creator.target) }}</td>
                   <td class="py-4 px-6">
@@ -339,7 +342,6 @@ const addVideoData = async () => {
     });
     return;
   }
-
   const videoId = extractVideoId(videoUrl.value);
   if (!videoId) {
     Swal.fire({
@@ -351,7 +353,6 @@ const addVideoData = async () => {
   }
 
   loading.value = true;
-
   // If we haven't fetched data yet, do it now
   if (!fbVideoData.value) {
     await fetchVideoData(videoId);
@@ -429,7 +430,7 @@ const fetchCreators = async () => {
   loading.value = true;
   try {
     // Fetch creators data
-    const response = await useApi('/items/creators?fields=*,remarks.*,user_created.*', {
+    const response = await useApi('/items/creators?fields=*,remarks.*,user_created.*,user_created.department.title', {
       method: 'GET'
     }) as IResponse<ICreator[]>;
 
@@ -607,13 +608,13 @@ const editVideo = async (remark: any) => {
       };
     }
   });
-//  <div class="mb-4">
-//         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-//         <select id="swal-status" class="w-full p-2 border rounded">
-//           <option value="active" ${remark.status === 'active' ? 'selected' : ''}>Active</option>
-//           <option value="inactive" ${remark.status === 'inactive' ? 'selected' : ''}>Inactive</option>
-//         </select>
-//       </div>
+  //  <div class="mb-4">
+  //         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+  //         <select id="swal-status" class="w-full p-2 border rounded">
+  //           <option value="active" ${remark.status === 'active' ? 'selected' : ''}>Active</option>
+  //           <option value="inactive" ${remark.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+  //         </select>
+  //       </div>
   if (formValues) {
     return await updateVideo(remark.id, formValues);
   }
@@ -637,7 +638,7 @@ const handleRemarkClick = (creator: ICreator) => {
   // <!-- Modify the handleRemarkClick function's HTML output to include a refresh button -->
   const remarksList = creator.remarks.map(r =>
     `<div class="mb-4 p-3 border-b">
-    <div class="flex justify-between items-start">
+    <div class="md:flex justify-between items-start">
       <div>
         <p class="font-bold">${r.title}</p>
         <p class="text-sm break-words">
@@ -655,7 +656,7 @@ const handleRemarkClick = (creator: ICreator) => {
         <button onclick="window.deleteRemark('${r.id}', '${creatorName}', '${r.title.replace(/'/g, "\\'")}')" 
           class="px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
           Delete
-        </button>
+        </button> 
       </div>
     </div>
   </div>`
@@ -834,8 +835,161 @@ const refreshAllVideos = async () => {
     globalRefreshLoading.value = false;
   }
 };
-// Function to handle form submission
 
+
+import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
+// Add these imports to your setup script if not already there
+import { onUnmounted } from 'vue';
+
+// Add these to your existing ref declarations
+const isExportDropdownOpen = ref(false);
+
+// Add this function to handle clicking outside the dropdown
+const closeDropdowns = (event: MouseEvent) => {
+  const target = event.target as HTMLElement;
+  if (isExportDropdownOpen.value && !target.closest('.relative')) {
+    isExportDropdownOpen.value = false;
+  }
+};
+
+// Add these lifecycle hooks to handle clicks outside the dropdown
+onMounted(() => {
+  document.addEventListener('click', closeDropdowns);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeDropdowns);
+});
+/**
+ * Generates and downloads a CSV file with creator performance data
+ */
+const exportToCSV = () => {
+  if (!creatorsList.value || creatorsList.value.length === 0) {
+    Swal.fire({
+      title: 'No Data',
+      text: 'There is no data available to export',
+      icon: 'warning'
+    });
+    return;
+  }
+
+  // Create CSV data structure
+  const csvData = creatorsList.value.map(creator => {
+    // Get the staff member name
+    const name = getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name);
+
+    // Get their position and department
+    const position = auth.user?.title || 'N/A';
+    const department = auth.user?.department?.title || 'N/A';
+
+    // Get their view target and status
+    const viewTarget = creator.target || 0;
+    const status = isCompleted(creator) ? 'Completed' : 'In Progress';
+
+    // Get number of videos and total views
+    const numVideos = creator.remarks?.length || 0;
+    const totalViews = getTotalViews(creator.remarks);
+
+    // Get all video links as a single string (comma separated)
+    const videoLinks = creator.remarks?.map(r => r.video_link).join(', ') || '';
+
+    return {
+      Name: name,
+      Position: position,
+      Department: department,
+      "View Target": viewTarget,
+      Status: status,
+      "Number of Videos": numVideos,
+      "Total Views": totalViews,
+      "Video Links": videoLinks
+    };
+  });
+
+  // Convert to CSV format
+  const csv = Papa.unparse(csvData);
+
+  // Create a Blob and download the file
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  saveAs(blob, `video-performance-${new Date().toISOString().slice(0, 10)}.csv`);
+
+  Swal.fire({
+    title: 'Success',
+    text: 'CSV file has been generated and downloaded',
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+  });
+};
+
+// For more detailed CSV that includes individual video data
+const exportDetailedCSV = () => {
+  if (!creatorsList.value || creatorsList.value.length === 0) {
+    Swal.fire({
+      title: 'No Data',
+      text: 'There is no data available to export',
+      icon: 'warning'
+    });
+    return;
+  }
+
+  // Create a more detailed CSV with one row per video
+  const detailedData: any[] = [];
+
+  creatorsList.value.forEach(creator => {
+    const name = getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name);
+    const position = auth.user?.title || 'N/A';
+    const department = auth.user?.department?.title || 'N/A';
+    const viewTarget = creator.target || 0;
+    const status = isCompleted(creator) ? 'Completed' : 'In Progress';
+    const totalViews = getTotalViews(creator.remarks);
+
+    // If creator has no videos, add a single row
+    if (!creator.remarks || creator.remarks.length === 0) {
+      detailedData.push({
+        Name: name,
+        Position: position,
+        Department: department,
+        "View Target": viewTarget,
+        Status: status,
+        "Video Title": "N/A",
+        "Video Link": "N/A",
+        "Views": 0,
+        "Total Views": totalViews
+      });
+    } else {
+      // Add one row per video
+      creator.remarks.forEach(video => {
+        detailedData.push({
+          Name: name,
+          Position: position,
+          Department: department,
+          "View Target": viewTarget,
+          Status: status,
+          "Video Title": video.title || "Untitled",
+          "Video Link": video.video_link || "N/A",
+          "Views": formatNumber(video.view) || 0,
+          "Total Views": totalViews
+        });
+      });
+    }
+  });
+
+  // Convert to CSV format
+  const csv = Papa.unparse(detailedData);
+
+  // Create a Blob and download the file
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  saveAs(blob, `detailed-video-performance-${new Date().toISOString().slice(0, 10)}.csv`);
+
+  Swal.fire({
+    title: 'Success',
+    text: 'Detailed CSV file has been generated and downloaded',
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+  });
+};
 
 definePageMeta({
   middleware: 'auth',
