@@ -17,34 +17,39 @@
             :icon="theme === 'dark' ? 'line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition' : 'line-md:moon-filled-alt-to-sunny-filled-loop-transition'"
             class="w-5 h-5 text-gray-700 dark:text-gray-300" />
         </button>
-        
+
         <!-- Notifications -->
         <div class="relative" ref="notificationDropdownContainer">
-          <button @click="toggleNotificationDropdown" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors">
+          <button @click="toggleNotificationDropdown"
+            class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors">
             <div class="relative">
               <Icon icon="mdi:bell" class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-              <span v-if="notifications.length > 0" class="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">{{ notifications.length }}</span>
+              <span v-if="notifications.length > 0"
+                class="absolute -top-1.5 -right-1.5 flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">{{
+                  notifications.length }}</span>
             </div>
           </button>
-          
+
           <!-- Notification Dropdown -->
           <div v-if="notificationDropdownOpen"
-            class="absolute   right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 " v-motion-fade-visible-once >
+            class="absolute   right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 "
+            v-motion-fade-visible-once>
             <div class="p-4 border-b border-gray-100 dark:border-gray-700">
               <div class="flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900 dark:text-white">Notifications</h3>
-                <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full">
+                <span
+                  class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full">
                   {{ notifications.length }}
                 </span>
               </div>
             </div>
-            
+
             <div v-if="notifications.length === 0" class="p-4 text-center text-gray-500 dark:text-gray-400">
               No notifications
             </div>
-            
+
             <div v-else>
-              <div v-for="(notification, index) in notifications" :key="index" 
+              <div v-for="(notification, index) in notifications" :key="index"
                 class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors cursor-pointer">
                 <div class="flex items-start">
                   <div class="w-2 h-2 mt-1.5 bg-primary-500 rounded-full mr-3"></div>
@@ -57,7 +62,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="p-3 text-center border-t border-gray-100 dark:border-gray-700">
               <button class="text-sm text-primary-600 dark:text-primary-400 hover:underline">
                 View all notifications
@@ -65,8 +70,8 @@
             </div>
           </div>
         </div>
-         
-        
+
+
         <!-- Language Selector -->
         <div class="relative" ref="dropdownContainer">
           <button @click="toggleDropdown"
@@ -175,9 +180,9 @@
         </div>
       </div>
     </div>
-    
-  
-    
+
+
+
     <!-- Sidebar -->
     <aside :class="[
       'fixed top-0 left-0 h-full w-64 transition-transform duration-300 ease-in-out z-50 shadow-md',
@@ -188,14 +193,51 @@
       <div class="pt-16 md:pt-5 p-2">
         <h2 class="text-2xl font-bold text-center mb-6 hidden md:block">BAKSEY System</h2>
 
-        <nav>
-          <ul class="space-y-2">
-            <li v-for="item in localizedMenuItems" :key="item.to">
-              <NuxtLink :to="item.to" class="flex items-center p-3 rounded-lg transition-colors duration-300
-                       hover:bg-gray-100 dark:hover:bg-gray-800
-                       hover:text-black dark:hover:text-white" @click="closeSidebarOnMobile">
-                <Icon :icon="item.icon" class="mr-3 text-xl" />
-                {{ item.label }}
+        <nav class="px-3 py-2">
+          <ul class="space-y-1.5">
+            <li v-for="item in localizedMenuItems" :key="item.to" class="group">
+              <!-- Items with submenu -->
+              <div v-if="item.hasSubmenu" class="mb-2">
+                <button @click="toggleSubmenu(item.to)"
+                  class="flex items-center justify-between w-full p-2.5 rounded-lg font-medium transition-all duration-200 ease-in-out
+          text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-primary-900/20 group-hover:text-primary-600 dark:group-hover:text-primary-400"
+                  :class="{ 'bg-primary-50  dark:bg-primary-900/20 text-primary-600 dark:text-primary-400': openSubmenus[item.to] }">
+                  <div class="flex items-center ">
+                    <Icon :icon="item.icon" class="mr-3 text-xl opacity-75 group-hover:opacity-100"
+                      :class="{ 'text-primary-600  dark:text-primary-400 opacity-100': openSubmenus[item.to] }" />
+                    <span class="text-start">{{ item.label }}</span>
+                  </div>
+                  <Icon :icon="openSubmenus[item.to] ? 'mdi:chevron-up' : 'mdi:chevron-down'"
+                    class="text-sm transition-transform duration-200" :class="{ 'rotate-180': openSubmenus[item.to] }" />
+                </button>
+
+                <!-- Submenu with smooth animation -->
+                <div v-show="openSubmenus[item.to]"
+                  class="mt-1 ml-7 pl-2 border-l-2 border-gray-100  dark:border-gray-700 overflow-hidden transition-all duration-200">
+                  <NuxtLink v-for="sub in item.submenu" :key="sub.to" :to="sub.to" class="block  py-2 px-2 my-1 text-sm rounded-md transition-colors duration-200
+            text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400
+            hover:bg-primary-50/50 dark:hover:bg-primary-900/10" @click="closeSidebarOnMobile" :class="{
+              'text-primary-600 dark:text-primary-400 bg-primary-50/80 dark:bg-primary-900/15 font-medium':
+                $route.path.includes(sub.to) && sub.to !== '/'
+            }">
+                    {{ sub.label[locale] }}
+                  </NuxtLink>
+                </div>
+              </div>
+
+              <!-- Regular menu items -->
+              <NuxtLink v-else :to="item.to"
+                class="flex items-center p-2.5 rounded-lg font-medium transition-all duration-200 ease-in-out 
+        text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-primary-900/20 group-hover:text-primary-600 dark:group-hover:text-primary-400"
+                :class="{
+                  'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400': $route.path === item.to ||
+                    ($route.path.includes(item.to) && item.to !== '/')
+                }" @click="closeSidebarOnMobile">
+                <Icon :icon="item.icon" class="mr-3 text-xl opacity-75 group-hover:opacity-100" :class="{
+                  'text-primary-600 dark:text-primary-400 opacity-100': $route.path === item.to ||
+                    ($route.path.includes(item.to) && item.to !== '/')
+                }" />
+                <span>{{ item.label }}</span>
               </NuxtLink>
             </li>
           </ul>
@@ -206,13 +248,13 @@
         <InternetSpeed />
 
         <div class="mt-2 text-left">
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          BAKSEY Tech Solution © {{ new Date().getFullYear() }}
-        </p>
-        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-          Version 1.0
-        </p>
-      </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">
+            BAKSEY Tech Solution © {{ new Date().getFullYear() }}
+          </p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+            Version 1.0
+          </p>
+        </div>
       </div>
     </aside>
 
@@ -241,7 +283,7 @@ import { usePermissions } from '~/composables/usePermissions'
 import type { IResponse } from '~/types/api';
 import type { INotification } from '~/types/notification';
 
-const { isSale, isAdmin,isHr } = usePermissions()
+const { isSale, isAdmin, isHr } = usePermissions()
 
 
 
@@ -426,7 +468,7 @@ onMounted(async () => {
   if (hasToken && !auth.user) {
     await auth.refresh()
   }
-  
+
   // Fetch notifications on mount
   await fetchNotificationsData();
 })
@@ -473,9 +515,24 @@ const menuItems: MenuItem[] = [
   },
   // Track Performance Staff
   {
-    to: '/dashboard/track-performance-staff',
+    to: '#',
     icon: 'mdi:account-check',
-    label: { en: 'Track Performance Staff', km: 'តាមដានការប្រកួតប្រជែងរបស់បុគ្គលិក' }
+    label: { en: 'Track Performance Staff', km: 'តាមដានការប្រកួតប្រជែងរបស់បុគ្គលិក' },
+    hasSubmenu: true,
+    submenu: [
+      {
+        to: '/dashboard/track-performance-staff/creators',
+        label: { en: 'Creators', km: 'អ្នកបង្កើត' }
+      },
+      {
+        to: '/dashboard/track-performance-staff/writers',
+        label: { en: 'Writers', km: 'អ្នកសរសេរ' }
+      },
+      {
+        to: '/dashboard/track-performance-staff/editors',
+        label: { en: 'Editors', km: 'អ្នកកែសម្រួល' }
+      }
+    ]
   },
   // {
   //   to: '/dashboard/reports',
@@ -490,7 +547,7 @@ const menuItems: MenuItem[] = [
     label: { en: 'Ads', km: 'ការផ្សាយពាណិជ្ជកម្ម' },
     role: ['admin', 'sales', 'hr'] // Set multiple roles here 
   },
-  
+
   {
     to: '/dashboard/commissions',
     icon: 'mdi:cash',
@@ -506,6 +563,11 @@ const menuItems: MenuItem[] = [
   },
 
 ]
+const openSubmenus = ref<Record<string, boolean>>({});
+
+const toggleSubmenu = (key: string) => {
+  openSubmenus.value[key] = !openSubmenus.value[key];
+};
 
 const localizedMenuItems = computed(() =>
   menuItems
