@@ -10,23 +10,35 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (!auth.user) {
     return navigateTo('/login');
   }
+
+  // Define role IDs
+  const adminRoleId = "3a5cb98e-02f8-4f09-afd9-dcd43288c756";
+  const writerRoleId = "bb5d4a67-a17e-4cdf-9d59-c8f95518797b";
+  const creatorRoleId = "487171a6-b731-4d96-b350-3481868c8f92";
+  const hrRoleId = "90feab0a-4641-44bc-91ea-806387b95230";
   
-  // Check if the user has the required role for writers page
-  const requiredWriterRole = "bb5d4a67-a17e-4cdf-9d59-c8f95518797b";
+  // Check if user is an admin (admins can access all pages)
+  const isAdmin = auth.user.role.id === adminRoleId;
+  const isHR = auth.user.role.id === hrRoleId;
+  // If user is admin, allow access to any page
+  if (isAdmin) {
+    return;
+  }
+  if (isHR) {
+    return;
+  }
   
-  // The path is specifically for the writers page
+  // For non-admin users, check specific page permissions
+  
+  // Check access for writers page
   if (to.path.includes('/dashboard/track-performance-staff/writers') && 
-      auth.user.role.id !== requiredWriterRole) {
-    // User doesn't have the required role, show access denied page or redirect
+      auth.user.role.id !== writerRoleId) {
     return navigateTo('/access-denied');
   }
 
-//   check if the user has the require role for creator page
-    const requiredCreatorRole = "487171a6-b731-4d96-b350-3481868c8f92";
-    // The path is specifically for the creators page
-    if (to.path.includes('/dashboard/track-performance-staff/creators') && 
-        auth.user.role.id !== requiredCreatorRole) {
-      // User doesn't have the required role, show access denied page or redirect
-      return navigateTo('/access-denied');
-    }
+  // Check access for creators page
+  if (to.path.includes('/dashboard/track-performance-staff/creators') && 
+      auth.user.role.id !== creatorRoleId) {
+    return navigateTo('/access-denied');
+  }
 });
