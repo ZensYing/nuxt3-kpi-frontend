@@ -538,7 +538,68 @@ const fetchArticleData = async () => {
 
 // ================== end fetch Article Data =================
 
+// ===================cehck duplicate article=================
 
+
+// Function to check if an article link already exists
+const checkDuplicateArticleLink = async (link: string): Promise<boolean> => {
+  try {
+    // Normalize the URL to ensure consistent comparison
+    let normalizedLink = link.trim();
+    
+    // Try to create URL object to handle different formats of the same URL
+    try {
+      const url = new URL(normalizedLink);
+      // Remove trailing slashes for consistency
+      normalizedLink = url.toString().replace(/\/$/, '');
+    } catch (error) {
+      // If URL is invalid, just use the trimmed version
+      console.warn('Invalid URL format:', link);
+    }
+    
+    // Query the API to check for existing articles with similar links
+    const filter = encodeURIComponent(JSON.stringify({
+      article_link: {
+        _contains: normalizedLink
+      }
+    }));
+    const fields = encodeURIComponent('id,article_link');
+    const response = await useApi(`/items/remark_link_writer?filter=${filter}&fields=${fields}`, {
+      method: 'GET'
+    });
+    
+    // If there are any results, a duplicate exists
+    if (response && Array.isArray((response as any).data) && (response as any).data.length > 0) {
+      // Look through results to handle exact matches (accounting for trailing slashes, etc)
+      for (const existingArticle of (response as any).data) {
+        // Normalize the existing article link too
+        let existingLink = existingArticle.article_link.trim();
+        try {
+          const url = new URL(existingLink);
+          existingLink = url.toString().replace(/\/$/, '');
+        } catch (error) {
+          // Continue with the trimmed version
+        }
+        
+        // Compare the normalized links
+        if (normalizedLink === existingLink) {
+          return true; // Duplicate found
+        }
+      }
+    }
+    
+    // No duplicates found
+    return false;
+    
+  } catch (error) {
+    console.error('Error checking for duplicate article links:', error);
+    // In case of error, assume it might be a duplicate to be safe
+    throw new Error('Failed to check for duplicate articles');
+  }
+};
+
+
+// ================= end check duplicate Creators =================
 // Add article data to the system
 const addArticleData = async () => {
   if (!selectedCreator.value) {
@@ -553,6 +614,18 @@ const addArticleData = async () => {
   loading.value = true;
 
   try {
+
+     // First check if this article link already exists
+    const isDuplicate = await checkDuplicateArticleLink(article_link.value);
+    
+    if (isDuplicate) {
+      Swal.fire({
+        title: 'Duplicate Article',
+        text: 'This article URL has already been added to the system',
+        icon: 'error'
+      });
+      return;
+    }
     // Create a new remark with the article data
     const remarkData = {
       title: article_title.value,
