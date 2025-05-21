@@ -174,7 +174,7 @@
                   <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator.user_created?.department?.title ||
                     'N/A' }}
                   </td>
-                  <td class="py-4 px-6 font-medium">{{ formatNumber(creator.target) }}</td>
+                  <td class="py-4 px-6 font-medium dark:text-white">{{ formatNumber(creator.target) }}</td>
                   <td class="py-4 px-6">
                     <span v-if="isCompleted(creator)"
                       class="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-xs font-medium">
@@ -192,14 +192,14 @@
                   </td>
                   <td class="py-4 px-6">
                     <button @click="viewWriterArticles(creator.id)" class="px-3 py-1 flex bg-blue-500  dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50
-                      text-white dark:text-indigo-400 rounded-md transition-colors">
+                      text-white  dark:text-indigo-400 rounded-md transition-colors">
                       {{ creator.remarks?.length || 0 }} Articles
                       <Icon icon="game-icons:click" width="24" height="24" />
 
                     </button>
                   </td>
-                  <td class="py-4 px-6 font-medium">{{ formatTotalViews(getTotalViews(creator.remarks)) }}</td>
-                  <td class="py-4 px-6 w-40">
+                  <td class="py-4 px-6 font-medium dark:text-white">{{ formatTotalViews(getTotalViews(creator.remarks)) }}</td>
+                  <td class="py-4 px-6 w-40 dark:text-white">
                     <div class="flex items-center">
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mr-2">
                         <div class="h-2.5 rounded-full" :class="getProgressBarColor(calculatePercent(creator))"
@@ -283,7 +283,7 @@
                           {{ article.article_link }}
                         </a>
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-500 dark:text-gray-400">
                         {{ formatNumber(article.view || 0) }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
