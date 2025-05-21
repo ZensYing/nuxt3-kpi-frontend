@@ -17,13 +17,25 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Website URL
                 </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Icon icon="iconoir:www" class="h-5 w-5 text-gray-400" />
+                <div class="relative flex gap-2">
+                  <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <Icon icon="iconoir:www" class="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input v-model="article_link" type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
+                      placeholder="https://www.tech-cambodia.com/example-slug" required />
                   </div>
-                  <input v-model="article_link" type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
-                    placeholder="https://www.tech-cambodia.com/example-slug" required />
+                  <button type="button" @click="fetchArticleData"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-3 rounded-lg transition-all flex items-center justify-center shadow-md hover:shadow-lg"
+                    :disabled="loading || !article_link">
+                    <span v-if="loading" class="flex items-center">
+                      <Icon icon="line-md:loading-twotone-loop" class="h-5 w-5" />
+                    </span>
+                    <span v-else class="flex items-center">
+                      <Icon icon="material-symbols:search" class="h-5 w-5" />
+                    </span>
+                  </button>
                 </div>
               </div>
               <!-- Creator select dropdown -->
@@ -41,13 +53,25 @@
               </div>
             </div>
 
-            <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Article Title (Optional)
-              </label>
-              <input v-model="article_title" type="text"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
-                placeholder="Article title will be fetched automatically if left blank" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Article Title (Optional)
+                </label>
+                <input v-model="article_title" type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                  placeholder="Article title will be fetched automatically if left blank" />
+              </div>
+              <!-- article_view input -->
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Article Views
+                </label>
+                <input v-model.number="article_view" type="number"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                  placeholder="0" required />
+              </div>
+
             </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
@@ -72,7 +96,8 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Total Articles</p>
             <div class="flex items-center mt-2">
               <Icon icon="fluent:document-16-filled" class="h-8 w-8 text-indigo-500 mr-3" />
-              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalArticlesCount(creators) }}</span>
+              <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalArticlesCount(creators)
+                }}</span>
             </div>
           </div>
 
@@ -89,7 +114,7 @@
             <div class="flex items-center mt-2">
               <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators)
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -98,7 +123,8 @@
         <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
           <div class="p-5 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Staff Performance</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Track article engagement metrics for each team member</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Track article engagement metrics for each team member
+            </p>
           </div>
           <!-- Refresh Articles Button -->
           <div class="flex justify-end px-6 mb-4 mt-2">
@@ -145,7 +171,8 @@
                     {{ getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name) }}
                   </td>
                   <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator.user_created?.title || 'N/A' }}</td>
-                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator.user_created?.department?.title || 'N/A' }}
+                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ creator.user_created?.department?.title ||
+                    'N/A' }}
                   </td>
                   <td class="py-4 px-6 font-medium">{{ formatNumber(creator.target) }}</td>
                   <td class="py-4 px-6">
@@ -190,95 +217,197 @@
     </div>
   </div>
   <div v-if="showArticlesModal" class="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+        @click="closeArticlesModal"></div>
+
+      <!-- Center modal -->
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+      <!-- Modal panel -->
+      <div
+        class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+        <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="w-full">
+              <div class="flex justify-between items-center mb-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                  Articles by {{ selectedWriterName }}
+                </h3>
+                <button @click="closeArticlesModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                  <Icon icon="heroicons:x-mark" class="h-6 w-6" />
+                </button>
+              </div>
+
+              <!-- Articles table -->
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Title
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        URL
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Views
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr v-if="writerArticles.length === 0">
+                      <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                        No articles found for this writer.
+                      </td>
+                    </tr>
+                    <tr v-for="article in writerArticles" :key="article.id"
+                      class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                        {{ article.title || 'Untitled Article' }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <a :href="article.article_link" target="_blank"
+                          class="text-blue-600 dark:text-blue-400 hover:underline truncate block max-w-xs">
+                          {{ article.article_link }}
+                        </a>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        {{ formatNumber(article.view || 0) }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button @click="refreshArticleViews(article.id)"
+                          class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+                          :disabled="article.isRefreshing">
+                          <span v-if="article.isRefreshing" class="flex items-center">
+                            <Icon icon="line-md:loading-twotone-loop" class="h-4 w-4 mr-1" />
+                            Refreshing...
+                          </span>
+                          <span v-else class="flex items-center">
+                            <Icon icon="ion:refresh-circle" class="h-4 w-4 mr-1" />
+                            Refresh Views
+                          </span>
+                        </button>
+                         <button @click="editArticle(article)"
+                            class="text-amber-600 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors">
+                            <span class="flex items-center">
+                              <Icon icon="heroicons:pencil-square" class="h-4 w-4 mr-1" />
+                              Edit
+                            </span>
+                          </button>
+                          <button @click="confirmDeleteArticle(article.id)"
+                            class="text-rose-600 dark:text-rose-400 hover:text-rose-900 dark:hover:text-rose-300 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors">
+                            <span class="flex items-center">
+                              <Icon icon="heroicons:trash" class="h-4 w-4 mr-1" />
+                              Delete
+                            </span>
+                          </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" @click="closeArticlesModal"
+            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Edit Article Modal -->
+<div v-if="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
   <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
     <!-- Background overlay -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="closeArticlesModal"></div>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+      @click="closeEditModal"></div>
 
     <!-- Center modal -->
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+    <div
+      class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="sm:flex sm:items-start">
           <div class="w-full">
             <div class="flex justify-between items-center mb-5">
               <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                Articles by {{ selectedWriterName }}
+                Edit Article
               </h3>
-              <button @click="closeArticlesModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+              <button @click="closeEditModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
                 <Icon icon="heroicons:x-mark" class="h-6 w-6" />
               </button>
             </div>
-            
-            <!-- Articles table -->
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Title
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      URL
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Views
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  <tr v-if="writerArticles.length === 0">
-                    <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                      No articles found for this writer.
-                    </td>
-                  </tr>
-                  <tr v-for="article in writerArticles" :key="article.id" class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                      {{ article.title || 'Untitled Article' }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      <a :href="article.article_link" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline truncate block max-w-xs">
-                        {{ article.article_link }}
-                      </a>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      {{ formatNumber(article.view || 0) }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button @click="refreshArticleViews(article.id)" 
-                              class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
-                              :disabled="article.isRefreshing">
-                        <span v-if="article.isRefreshing" class="flex items-center">
-                          <Icon icon="line-md:loading-twotone-loop" class="h-4 w-4 mr-1" />
-                          Refreshing...
-                        </span>
-                        <span v-else class="flex items-center">
-                          <Icon icon="ion:refresh-circle" class="h-4 w-4 mr-1" />
-                          Refresh Views
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+            <!-- Edit form -->
+            <form @submit.prevent="updateArticle" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Article Title
+                </label>
+                <input v-model="editForm.title" type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                  placeholder="Article Title" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Website URL
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <Icon icon="iconoir:www" class="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input v-model="editForm.article_link" type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
+                    placeholder="https://www.tech-cambodia.com/example-slug" required />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Article Views
+                </label>
+                <input v-model.number="editForm.view" type="number" disabled
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                  placeholder="0" required />
+              </div>
+            </form>
           </div>
         </div>
       </div>
       <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button type="button" 
-                @click="closeArticlesModal"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-          Close
+        <button type="button" @click="updateArticle"
+          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:ml-3 sm:w-auto sm:text-sm"
+          :disabled="isEditLoading">
+          <span v-if="isEditLoading" class="flex items-center">
+            <Icon icon="line-md:loading-twotone-loop" class="h-5 w-5 mr-2" />
+            Updating...
+          </span>
+          <span v-else>Save Changes</span>
+        </button>
+        <button type="button" @click="closeEditModal"
+          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancel
         </button>
       </div>
     </div>
   </div>
 </div>
+
 </template>
 
 <script setup lang="ts">
@@ -324,6 +453,89 @@ const creatorsList = computed(() => {
 
 const { dateRangeHeader, totalViewsHeader } = getKpiDateHeaders();
 
+// ================== Fetch Article Data =================
+
+// Function to fetch article data from Tech Cambodia API
+const fetchArticleData = async () => {
+  // Check if URL is valid
+  if (!article_link.value) return;
+
+  try {
+    loading.value = true;
+
+    // Extract the slug from the article URL
+    let slug;
+    try {
+      const url = new URL(article_link.value);
+      const pathParts = url.pathname.split('/');
+      slug = pathParts[pathParts.length - 1];
+    } catch (error) {
+      console.error('Invalid URL:', article_link.value);
+      return;
+    }
+
+    if (!slug) {
+      Swal.fire({
+        title: 'Invalid URL',
+        text: 'Could not extract article slug from the URL',
+        icon: 'warning'
+      });
+      return;
+    }
+
+    // Fetch the article data from Tech Cambodia API
+    const response = await techCambodiaApi.get('/items/articles', {
+      params: {
+        filter: JSON.stringify({
+          slug: {
+            _eq: slug
+          }
+        })
+      }
+    });
+
+    if (!response.data || !response.data.data || response.data.data.length === 0) {
+      Swal.fire({
+        title: 'Article Not Found',
+        text: 'Could not find article data in Tech Cambodia CMS',
+        icon: 'warning'
+      });
+      return;
+    }
+
+    const articleData = response.data.data[0];
+
+    // Populate form fields with the fetched data
+    article_title.value = articleData.title || '';
+    article_view.value = articleData.views || 0;
+
+    // Show success notification
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: 'Article data fetched successfully',
+      showConfirmButton: false,
+      timer: 2000
+    });
+
+  } catch (error) {
+    console.error('Failed to fetch article data:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'Failed to fetch article data from Tech Cambodia',
+      icon: 'error'
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
+
+
+// ================== end fetch Article Data =================
+
+
 // Add article data to the system
 const addArticleData = async () => {
   if (!selectedCreator.value) {
@@ -334,9 +546,9 @@ const addArticleData = async () => {
     });
     return;
   }
-  
+
   loading.value = true;
-  
+
   try {
     // Create a new remark with the article data
     const remarkData = {
@@ -358,10 +570,11 @@ const addArticleData = async () => {
       text: 'Article data has been added successfully',
       icon: 'success'
     });
-    
+
     // Reset form
     article_link.value = '';
     article_title.value = '';
+    article_view.value = 0;
 
     // Refresh creator data
     await fetchCreators();
@@ -402,14 +615,14 @@ const writerArticles = ref<any[]>([]);
 // Replace the viewWriterArticles function with this:
 const viewWriterArticles = (writerId: number) => {
   selectedWriterId.value = writerId;
-  
+
   // Find the writer and their articles
   const writer = creators.value.find(c => c.id === writerId);
   if (writer) {
     selectedWriterName.value = getUserName(writer.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name);
     writerArticles.value = writer.remarks || [];
   }
-  
+
   // Show the modal
   showArticlesModal.value = true;
 };
@@ -429,22 +642,22 @@ const refreshArticleViews = async (articleId: number) => {
     if (articleIndex !== -1) {
       writerArticles.value[articleIndex].isRefreshing = true;
     }
-    
+
     // Get the article details from writer articles
     const article = writerArticles.value.find(a => a.id === articleId);
     if (!article || !article.article_link) {
       throw new Error('Article link not found');
     }
-    
+
     // Extract the slug from the article URL
     const url = new URL(article.article_link);
     const pathParts = url.pathname.split('/');
     const slug = pathParts[pathParts.length - 1];
-    
+
     if (!slug) {
       throw new Error('Could not extract article slug from URL');
     }
-    
+
     // Fetch the article data from the Tech Cambodia API
     const response = await techCambodiaApi.get('/items/articles', {
       params: {
@@ -455,14 +668,14 @@ const refreshArticleViews = async (articleId: number) => {
         })
       }
     });
-    
+
     if (!response.data || !response.data.data || response.data.data.length === 0) {
       throw new Error('Article not found in the Tech Cambodia CMS');
     }
-    
+
     const articleData = response.data.data[0];
     const viewCount = articleData.views || 0;
-    
+
     // Update the article view count in the current CMS database
     await useApi(`/items/remark_link_writer/${articleId}`, {
       method: 'PATCH',
@@ -470,15 +683,15 @@ const refreshArticleViews = async (articleId: number) => {
         view: viewCount
       }
     });
-    
+
     // Update the local state
     if (articleIndex !== -1) {
       writerArticles.value[articleIndex].view = viewCount;
     }
-    
+
     // After refresh, update the creator data to ensure everything is in sync
     await fetchCreators();
-    
+
     // If modal is still open, update the articles displayed in the modal
     if (showArticlesModal.value && selectedWriterId.value) {
       const updatedWriter = creators.value.find(c => c.id === selectedWriterId.value);
@@ -486,7 +699,7 @@ const refreshArticleViews = async (articleId: number) => {
         writerArticles.value = updatedWriter.remarks || [];
       }
     }
-    
+
     // Show success notification
     Swal.fire({
       toast: true,
@@ -496,7 +709,7 @@ const refreshArticleViews = async (articleId: number) => {
       showConfirmButton: false,
       timer: 3000
     });
-    
+
   } catch (error) {
     console.error('Failed to refresh article views:', error);
     Swal.fire({
@@ -661,7 +874,7 @@ const refreshAllArticles = async () => {
 
     // Wait for all updates to complete
     await Promise.allSettled(updatePromises);
-    
+
     // Refresh the creators data to get updated view counts
     await fetchCreators();
 
@@ -690,6 +903,163 @@ const refreshAllArticles = async () => {
     globalRefreshLoading.value = false;
   }
 };
+
+
+// ================= Edit article =================
+const showEditModal = ref(false);
+const isEditLoading = ref(false);
+const editForm = ref({
+  id: null as number | null,
+  title: '',
+  article_link: '',
+  view: 0,
+});
+// Function to open edit modal with article data
+const editArticle = (article: any) => {
+  editForm.value = {
+    id: article.id,
+    title: article.title || '',
+    article_link: article.article_link || '',
+    view: article.view || 0,
+  };
+  showEditModal.value = true;
+};
+
+// Function to close edit modal
+const closeEditModal = () => {
+  showEditModal.value = false;
+  editForm.value = {
+    id: null,
+    title: '',
+    article_link: '',
+    view: 0,
+  };
+};
+
+// Function to update article
+const updateArticle = async () => {
+  if (!editForm.value.id) return;
+
+  try {
+    isEditLoading.value = true;
+
+    // Validate URL format
+    try {
+      new URL(editForm.value.article_link);
+    } catch (error) {
+      throw new Error('Please enter a valid URL');
+    }
+
+    // Update the article
+    await useApi(`/items/remark_link_writer/${editForm.value.id}`, {
+      method: 'PATCH',
+      data: {
+        title: editForm.value.title,
+        article_link: editForm.value.article_link,
+        view: editForm.value.view
+      }
+    });
+
+    // Update local state
+    const articleIndex = writerArticles.value.findIndex(a => a.id === editForm.value.id);
+    if (articleIndex !== -1) {
+      writerArticles.value[articleIndex] = {
+        ...writerArticles.value[articleIndex],
+        title: editForm.value.title,
+        article_link: editForm.value.article_link,
+        view: editForm.value.view
+      };
+    }
+
+    // Refresh creators to update counts/metrics
+    await fetchCreators();
+
+    // Show success notification
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: 'Article updated successfully',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    // Close the modal
+    closeEditModal();
+
+  } catch (error: any) {
+    console.error('Failed to update article:', error);
+    Swal.fire({
+      title: 'Error',
+      text: error?.message || 'Failed to update article',
+      icon: 'error'
+    });
+  } finally {
+    isEditLoading.value = false;
+  }
+};
+
+// Function to confirm deletion of an article
+const confirmDeleteArticle = (articleId: number) => {
+  Swal.fire({
+    title: 'Delete Article',
+    text: 'Are you sure you want to delete this article? This action cannot be undone.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#ef4444',
+    cancelButtonColor: '#6b7280',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteArticle(articleId);
+    }
+  });
+};
+
+// Function to delete an article
+const deleteArticle = async (articleId: number) => {
+  try {
+    // Delete the article
+    await useApi(`/items/remark_link_writer/${articleId}`, {
+      method: 'DELETE'
+    });
+
+    // Remove from local state
+    writerArticles.value = writerArticles.value.filter(a => a.id !== articleId);
+
+    // If this was the last article and the filtered array is now empty
+    if (writerArticles.value.length === 0) {
+      // Refresh the creators data to ensure everything is in sync
+      await fetchCreators();
+    } else {
+      // Otherwise just update the creator's data
+      const updatedCreator = creators.value.find(c => c.id === selectedWriterId.value);
+      if (updatedCreator) {
+        updatedCreator.remarks = updatedCreator.remarks?.filter(r => r.id !== articleId) || [];
+      }
+      await fetchCreators();
+    }
+     // Show success notification
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: 'Article deleted successfully',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  } catch (error: any) {
+    console.error('Failed to delete article:', error);
+    Swal.fire({
+      title: 'Error',
+      text: error?.data?.message || 'Failed to delete article',
+      icon: 'error'
+    });
+  }
+};
+    
+// ================== End delete article =================
 // Set default selected creator when list loads
 watch(creatorsList, (newCreatorsList) => {
   if (newCreatorsList.length > 0 && !selectedCreator.value) {
