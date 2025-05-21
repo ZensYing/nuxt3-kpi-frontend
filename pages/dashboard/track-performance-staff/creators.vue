@@ -224,8 +224,8 @@
                   <td class="py-4 px-6 font-medium text-gray-800 dark:text-white">
                     {{ getUserName(creator.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name) }}
                   </td>
-                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ auth.user?.title || 'N/A' }}</td>
-                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{ auth.user?.department?.title || 'N/A' }}
+                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{creator.user_created?.title || 'N/A' }}</td>
+                  <td class="py-4 px-6 text-gray-600 dark:text-gray-300">{{creator.user_created?.department?.title || 'N/A' }}
                   </td>
                   <td class="py-4 px-6 font-medium">{{ formatNumber(creator.target) }}</td>
                   <td class="py-4 px-6">
@@ -445,8 +445,8 @@ const getUserName = (staffId: string): string => {
 const fetchCreators = async () => {
   loading.value = true;
   try {
-    // Fetch creators data
-    const response = await useApi('/items/creators?fields=*,remarks.*,user_created.*', {
+    // Fetch creators data 
+    const response = await useApi('/items/creators?fields=*,remarks.*,user_created.*,user_created.department.title', {
       method: 'GET'
     }) as IResponse<ICreator[]>;
 
@@ -1008,7 +1008,7 @@ const exportDetailedCSV = () => {
 };
 
 definePageMeta({
-  middleware: 'auth',
+ middleware: ['auth', 'role'],
 });
 
 onMounted(async () => {

@@ -1072,7 +1072,7 @@ watch(creatorsList, (newCreatorsList) => {
 
 // Set page metadata and auth middleware
 definePageMeta({
-  middleware: 'auth',
+  middleware: ['auth', 'role'],
 });
 
 // Fetch data on component mount
