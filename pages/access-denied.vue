@@ -15,7 +15,7 @@
         </p>
         
         <div class="flex flex-col md:flex-row gap-4 justify-center">
-          <NuxtLink to="/dashboard" 
+          <NuxtLink to="/" 
             class="inline-flex items-center px-5 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-md">
             <Icon icon="heroicons:arrow-left" class="mr-2 h-5 w-5" />
             Back to Dashboard
