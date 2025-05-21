@@ -188,11 +188,14 @@
                   <td class="py-4 px-6 font-medium"
                     :class="index % 2 === 0 ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'">
                     {{ getTotalViews(creator.remarks) }}
+                    
                   </td>
                   <td class="py-4 px-6">
-                    <button @click="viewWriterArticles(creator.id)" class="px-3 py-1 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50
-                      text-indigo-600 dark:text-indigo-400 rounded-full transition-colors">
+                    <button @click="viewWriterArticles(creator.id)" class="px-3 py-1 flex bg-blue-500  dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50
+                      text-white dark:text-indigo-400 rounded-md transition-colors">
                       {{ creator.remarks?.length || 0 }} Articles
+                    <Icon icon="game-icons:click" width="24" height="24" />
+                      
                     </button>
                   </td>
                   <td class="py-4 px-6 font-medium">{{ formatTotalViews(getTotalViews(creator.remarks)) }}</td>
