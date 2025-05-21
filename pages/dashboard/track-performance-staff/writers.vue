@@ -899,7 +899,7 @@ const refreshAllArticles = async () => {
   try {
     globalRefreshLoading.value = true;
 
-    // Show loading toast
+    // Toast notification
     const toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -917,13 +917,8 @@ const refreshAllArticles = async () => {
       title: 'Refreshing all article view counts...'
     });
 
-    // Collect all remarks from all creators
-    const allRemarks = [];
-    for (const creator of creators.value) {
-      if (creator.remarks && creator.remarks.length > 0) {
-        allRemarks.push(...creator.remarks);
-      }
-    }
+    // Collect all remarks
+    const allRemarks = creators.value.flatMap(creator => creator.remarks || []);
 
     if (allRemarks.length === 0) {
       Swal.fire({
@@ -931,17 +926,15 @@ const refreshAllArticles = async () => {
         text: 'No article data available to refresh',
         icon: 'info'
       });
-      globalRefreshLoading.value = false;
       return;
     }
 
-    // Track progress
+    // Progress counters
     let successCount = 0;
     let errorCount = 0;
     let skippedCount = 0;
     const totalCount = allRemarks.length;
 
-    // Process each article to update its view count
     const updatePromises = allRemarks.map(async (article) => {
       try {
         if (!article.article_link) {
@@ -949,12 +942,27 @@ const refreshAllArticles = async () => {
           return;
         }
 
-        // Extract the slug from the article URL
-        let slug;
+        // Extract domain and slug
+        let slug, selectedApi, apiPath;
         try {
           const url = new URL(article.article_link);
           const pathParts = url.pathname.split('/');
           slug = pathParts[pathParts.length - 1];
+
+          // Determine API and path
+          if (url.hostname.includes('tech-cambodia.com')) {
+            selectedApi = techCambodiaApi;
+            apiPath = '/items/articles';
+          } else if (url.hostname.includes('business-cambodia.com')) {
+            selectedApi = businessCambodiaApi;
+            apiPath = '/items/articles';
+          } else if (url.hostname.includes('healthy-cambodia.com')) {
+            selectedApi = healthyCambodiaApi;
+            apiPath = '/items/article'; // singular
+          } else {
+            skippedCount++;
+            return;
+          }
         } catch (error) {
           console.error('Invalid URL:', article.article_link);
           skippedCount++;
@@ -966,8 +974,8 @@ const refreshAllArticles = async () => {
           return;
         }
 
-        // Fetch the article data from Tech Cambodia API
-        const response = await techCambodiaApi.get('/items/articles', {
+        // Fetch view count
+        const response = await selectedApi.get(apiPath, {
           params: {
             filter: JSON.stringify({
               slug: {
@@ -977,7 +985,7 @@ const refreshAllArticles = async () => {
           }
         });
 
-        if (!response.data || !response.data.data || response.data.data.length === 0) {
+        if (!response.data?.data?.length) {
           skippedCount++;
           return;
         }
@@ -985,7 +993,7 @@ const refreshAllArticles = async () => {
         const articleData = response.data.data[0];
         const viewCount = articleData.views || 0;
 
-        // Update the article view count in the current CMS database
+        // Update in CMS
         await useApi(`/items/remark_link_writer/${article.id}`, {
           method: 'PATCH',
           data: {
@@ -1000,13 +1008,10 @@ const refreshAllArticles = async () => {
       }
     });
 
-    // Wait for all updates to complete
     await Promise.allSettled(updatePromises);
-
-    // Refresh the creators data to get updated view counts
     await fetchCreators();
 
-    // Show completion message
+    // Final report
     Swal.fire({
       title: 'Refresh Complete',
       html: `<div class="space-y-2">
@@ -1031,6 +1036,7 @@ const refreshAllArticles = async () => {
     globalRefreshLoading.value = false;
   }
 };
+
 
 
 // ================= Edit article =================
