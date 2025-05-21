@@ -97,7 +97,7 @@
             <div class="flex items-center mt-2">
               <Icon icon="fluent:document-16-filled" class="h-8 w-8 text-indigo-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalArticlesCount(creators)
-                }}</span>
+              }}</span>
             </div>
           </div>
 
@@ -114,7 +114,7 @@
             <div class="flex items-center mt-2">
               <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators)
-                }}</span>
+              }}</span>
             </div>
           </div>
         </div>
@@ -188,14 +188,14 @@
                   <td class="py-4 px-6 font-medium"
                     :class="index % 2 === 0 ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'">
                     {{ getTotalViews(creator.remarks) }}
-                    
+
                   </td>
                   <td class="py-4 px-6">
                     <button @click="viewWriterArticles(creator.id)" class="px-3 py-1 flex bg-blue-500  dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50
                       text-white dark:text-indigo-400 rounded-md transition-colors">
                       {{ creator.remarks?.length || 0 }} Articles
-                    <Icon icon="game-icons:click" width="24" height="24" />
-                      
+                      <Icon icon="game-icons:click" width="24" height="24" />
+
                     </button>
                   </td>
                   <td class="py-4 px-6 font-medium">{{ formatTotalViews(getTotalViews(creator.remarks)) }}</td>
@@ -299,20 +299,20 @@
                             Refresh Views
                           </span>
                         </button>
-                         <button @click="editArticle(article)"
-                            class="text-amber-600 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors">
-                            <span class="flex items-center">
-                              <Icon icon="heroicons:pencil-square" class="h-4 w-4 mr-1" />
-                              Edit
-                            </span>
-                          </button>
-                          <button @click="confirmDeleteArticle(article.id)"
-                            class="text-rose-600 dark:text-rose-400 hover:text-rose-900 dark:hover:text-rose-300 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors">
-                            <span class="flex items-center">
-                              <Icon icon="heroicons:trash" class="h-4 w-4 mr-1" />
-                              Delete
-                            </span>
-                          </button>
+                        <button @click="editArticle(article)"
+                          class="text-amber-600 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors">
+                          <span class="flex items-center">
+                            <Icon icon="heroicons:pencil-square" class="h-4 w-4 mr-1" />
+                            Edit
+                          </span>
+                        </button>
+                        <button @click="confirmDeleteArticle(article.id)"
+                          class="text-rose-600 dark:text-rose-400 hover:text-rose-900 dark:hover:text-rose-300 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors">
+                          <span class="flex items-center">
+                            <Icon icon="heroicons:trash" class="h-4 w-4 mr-1" />
+                            Delete
+                          </span>
+                        </button>
                       </td>
                     </tr>
                   </tbody>
@@ -331,85 +331,85 @@
     </div>
   </div>
   <!-- Edit Article Modal -->
-<div v-if="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
-  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    <!-- Background overlay -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-      @click="closeEditModal"></div>
+  <div v-if="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+        @click="closeEditModal"></div>
 
-    <!-- Center modal -->
-    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <!-- Center modal -->
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-    <!-- Modal panel -->
-    <div
-      class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-      <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <div class="sm:flex sm:items-start">
-          <div class="w-full">
-            <div class="flex justify-between items-center mb-5">
-              <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                Edit Article
-              </h3>
-              <button @click="closeEditModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
-                <Icon icon="heroicons:x-mark" class="h-6 w-6" />
-              </button>
-            </div>
-
-            <!-- Edit form -->
-            <form @submit.prevent="updateArticle" class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Article Title
-                </label>
-                <input v-model="editForm.title" type="text"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
-                  placeholder="Article Title" />
+      <!-- Modal panel -->
+      <div
+        class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="w-full">
+              <div class="flex justify-between items-center mb-5">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                  Edit Article
+                </h3>
+                <button @click="closeEditModal" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                  <Icon icon="heroicons:x-mark" class="h-6 w-6" />
+                </button>
               </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Website URL
-                </label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Icon icon="iconoir:www" class="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input v-model="editForm.article_link" type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
-                    placeholder="https://www.tech-cambodia.com/example-slug" required />
+              <!-- Edit form -->
+              <form @submit.prevent="updateArticle" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Article Title
+                  </label>
+                  <input v-model="editForm.title" type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                    placeholder="Article Title" />
                 </div>
-              </div>
 
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Article Views
-                </label>
-                <input v-model.number="editForm.view" type="number" disabled
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
-                  placeholder="0" required />
-              </div>
-            </form>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Website URL
+                  </label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <Icon icon="iconoir:www" class="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input v-model="editForm.article_link" type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-3"
+                      placeholder="https://www.tech-cambodia.com/example-slug" required />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Article Views
+                  </label>
+                  <input v-model.number="editForm.view" type="number" disabled
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3"
+                    placeholder="0" required />
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button type="button" @click="updateArticle"
-          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:ml-3 sm:w-auto sm:text-sm"
-          :disabled="isEditLoading">
-          <span v-if="isEditLoading" class="flex items-center">
-            <Icon icon="line-md:loading-twotone-loop" class="h-5 w-5 mr-2" />
-            Updating...
-          </span>
-          <span v-else>Save Changes</span>
-        </button>
-        <button type="button" @click="closeEditModal"
-          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-          Cancel
-        </button>
+        <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" @click="updateArticle"
+            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:ml-3 sm:w-auto sm:text-sm"
+            :disabled="isEditLoading">
+            <span v-if="isEditLoading" class="flex items-center">
+              <Icon icon="line-md:loading-twotone-loop" class="h-5 w-5 mr-2" />
+              Updating...
+            </span>
+            <span v-else>Save Changes</span>
+          </button>
+          <button type="button" @click="closeEditModal"
+            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </template>
 
@@ -460,18 +460,38 @@ const { dateRangeHeader, totalViewsHeader } = getKpiDateHeaders();
 
 // Function to fetch article data from Tech Cambodia API
 const fetchArticleData = async () => {
-  // Check if URL is valid
   if (!article_link.value) return;
 
   try {
     loading.value = true;
 
-    // Extract the slug from the article URL
     let slug;
+    let selectedApi;
+    let apiPath = '/items/articles'; // default path
+
     try {
       const url = new URL(article_link.value);
       const pathParts = url.pathname.split('/');
       slug = pathParts[pathParts.length - 1];
+
+      // Determine API and endpoint based on domain
+      if (url.hostname.includes('tech-cambodia.com')) {
+        selectedApi = techCambodiaApi;
+        apiPath = '/items/articles';
+      } else if (url.hostname.includes('business-cambodia.com')) {
+        selectedApi = businessCambodiaApi;
+        apiPath = '/items/articles';
+      } else if (url.hostname.includes('healthy-cambodia.com')) {
+        selectedApi = healthyCambodiaApi;
+        apiPath = '/items/article'; // Note: singular for healthy-cambodia
+      } else {
+        Swal.fire({
+          title: 'Unsupported Domain',
+          text: 'The article URL domain is not supported',
+          icon: 'warning'
+        });
+        return;
+      }
     } catch (error) {
       console.error('Invalid URL:', article_link.value);
       return;
@@ -486,8 +506,7 @@ const fetchArticleData = async () => {
       return;
     }
 
-    // Fetch the article data from Tech Cambodia API
-    const response = await techCambodiaApi.get('/items/articles', {
+    const response = await selectedApi.get(apiPath, {
       params: {
         filter: JSON.stringify({
           slug: {
@@ -500,19 +519,16 @@ const fetchArticleData = async () => {
     if (!response.data || !response.data.data || response.data.data.length === 0) {
       Swal.fire({
         title: 'Article Not Found',
-        text: 'Could not find article data in Tech Cambodia CMS',
+        text: 'Could not find article data in the selected CMS',
         icon: 'warning'
       });
       return;
     }
 
     const articleData = response.data.data[0];
-
-    // Populate form fields with the fetched data
     article_title.value = articleData.title || '';
     article_view.value = articleData.views || 0;
 
-    // Show success notification
     Swal.fire({
       toast: true,
       position: 'top-end',
@@ -526,13 +542,14 @@ const fetchArticleData = async () => {
     console.error('Failed to fetch article data:', error);
     Swal.fire({
       title: 'Error',
-      text: 'Failed to fetch article data from Tech Cambodia',
+      text: 'Failed to fetch article data from the CMS',
       icon: 'error'
     });
   } finally {
     loading.value = false;
   }
 };
+
 
 
 
@@ -546,7 +563,7 @@ const checkDuplicateArticleLink = async (link: string): Promise<boolean> => {
   try {
     // Normalize the URL to ensure consistent comparison
     let normalizedLink = link.trim();
-    
+
     // Try to create URL object to handle different formats of the same URL
     try {
       const url = new URL(normalizedLink);
@@ -556,7 +573,7 @@ const checkDuplicateArticleLink = async (link: string): Promise<boolean> => {
       // If URL is invalid, just use the trimmed version
       console.warn('Invalid URL format:', link);
     }
-    
+
     // Query the API to check for existing articles with similar links
     const filter = encodeURIComponent(JSON.stringify({
       article_link: {
@@ -567,7 +584,7 @@ const checkDuplicateArticleLink = async (link: string): Promise<boolean> => {
     const response = await useApi(`/items/remark_link_writer?filter=${filter}&fields=${fields}`, {
       method: 'GET'
     });
-    
+
     // If there are any results, a duplicate exists
     if (response && Array.isArray((response as any).data) && (response as any).data.length > 0) {
       // Look through results to handle exact matches (accounting for trailing slashes, etc)
@@ -580,17 +597,17 @@ const checkDuplicateArticleLink = async (link: string): Promise<boolean> => {
         } catch (error) {
           // Continue with the trimmed version
         }
-        
+
         // Compare the normalized links
         if (normalizedLink === existingLink) {
           return true; // Duplicate found
         }
       }
     }
-    
+
     // No duplicates found
     return false;
-    
+
   } catch (error) {
     console.error('Error checking for duplicate article links:', error);
     // In case of error, assume it might be a duplicate to be safe
@@ -615,9 +632,9 @@ const addArticleData = async () => {
 
   try {
 
-     // First check if this article link already exists
+    // First check if this article link already exists
     const isDuplicate = await checkDuplicateArticleLink(article_link.value);
-    
+
     if (isDuplicate) {
       Swal.fire({
         title: 'Duplicate Article',
@@ -682,6 +699,22 @@ const techCambodiaApi = axios.create({
   }
 });
 
+// businessCambodiaApi
+const businessCambodiaApi = axios.create({
+  baseURL: 'https://business-cambodia.com/cms',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// healthyCambodiaApi
+const healthyCambodiaApi = axios.create({
+  baseURL: 'https://healthy-cambodia.com/cms',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
 // Add these refs for the modal
 const showArticlesModal = ref(false);
 const selectedWriterId = ref<number | null>(null);
@@ -709,8 +742,9 @@ const closeArticlesModal = () => {
   selectedWriterId.value = null;
   writerArticles.value = [];
 };
+
 // Add a function to refresh a specific article's view count
-// Add a function to refresh a specific article's view count
+
 const refreshArticleViews = async (articleId: number) => {
   try {
     // Set loading state for this specific article
@@ -719,23 +753,41 @@ const refreshArticleViews = async (articleId: number) => {
       writerArticles.value[articleIndex].isRefreshing = true;
     }
 
-    // Get the article details from writer articles
     const article = writerArticles.value.find(a => a.id === articleId);
     if (!article || !article.article_link) {
       throw new Error('Article link not found');
     }
 
-    // Extract the slug from the article URL
-    const url = new URL(article.article_link);
-    const pathParts = url.pathname.split('/');
-    const slug = pathParts[pathParts.length - 1];
+    // Extract domain + slug
+    let slug, selectedApi, apiPath;
+    try {
+      const url = new URL(article.article_link);
+      const pathParts = url.pathname.split('/');
+      slug = pathParts[pathParts.length - 1];
+
+      // Set the correct API and path based on domain
+      if (url.hostname.includes('tech-cambodia.com')) {
+        selectedApi = techCambodiaApi;
+        apiPath = '/items/articles';
+      } else if (url.hostname.includes('business-cambodia.com')) {
+        selectedApi = businessCambodiaApi;
+        apiPath = '/items/articles';
+      } else if (url.hostname.includes('healthy-cambodia.com')) {
+        selectedApi = healthyCambodiaApi;
+        apiPath = '/items/article';
+      } else {
+        throw new Error('Unsupported article domain');
+      }
+    } catch (err) {
+      throw new Error('Invalid article URL');
+    }
 
     if (!slug) {
       throw new Error('Could not extract article slug from URL');
     }
 
-    // Fetch the article data from the Tech Cambodia API
-    const response = await techCambodiaApi.get('/items/articles', {
+    // Fetch article views
+    const response = await selectedApi.get(apiPath, {
       params: {
         filter: JSON.stringify({
           slug: {
@@ -746,13 +798,13 @@ const refreshArticleViews = async (articleId: number) => {
     });
 
     if (!response.data || !response.data.data || response.data.data.length === 0) {
-      throw new Error('Article not found in the Tech Cambodia CMS');
+      throw new Error('Article not found in the CMS');
     }
 
     const articleData = response.data.data[0];
     const viewCount = articleData.views || 0;
 
-    // Update the article view count in the current CMS database
+    // Update view count in local CMS
     await useApi(`/items/remark_link_writer/${articleId}`, {
       method: 'PATCH',
       data: {
@@ -760,15 +812,14 @@ const refreshArticleViews = async (articleId: number) => {
       }
     });
 
-    // Update the local state
+    // Update local state
     if (articleIndex !== -1) {
       writerArticles.value[articleIndex].view = viewCount;
     }
 
-    // After refresh, update the creator data to ensure everything is in sync
     await fetchCreators();
 
-    // If modal is still open, update the articles displayed in the modal
+    // Update modal view if open
     if (showArticlesModal.value && selectedWriterId.value) {
       const updatedWriter = creators.value.find(c => c.id === selectedWriterId.value);
       if (updatedWriter) {
@@ -776,7 +827,7 @@ const refreshArticleViews = async (articleId: number) => {
       }
     }
 
-    // Show success notification
+    // Show success
     Swal.fire({
       toast: true,
       position: 'top-end',
@@ -804,6 +855,7 @@ const refreshArticleViews = async (articleId: number) => {
     }
   }
 };
+
 
 
 // =================
@@ -1116,7 +1168,7 @@ const deleteArticle = async (articleId: number) => {
       }
       await fetchCreators();
     }
-     // Show success notification
+    // Show success notification
     Swal.fire({
       toast: true,
       position: 'top-end',
@@ -1134,7 +1186,7 @@ const deleteArticle = async (articleId: number) => {
     });
   }
 };
-    
+
 // ================== End delete article =================
 // Set default selected creator when list loads
 watch(creatorsList, (newCreatorsList) => {
