@@ -7,6 +7,7 @@ export interface IRemark {
   article_link: string;  // Changed from video_link to article_link
   view: string | null;
   creators: number;
+  date_created: Date ;
 }
 
 export interface IWriter {
@@ -39,6 +40,19 @@ export const getTotalViews = (remarks: IRemark[] | undefined): string => {
   remarks.forEach(remark => {
     if (remark.view) {
       total += parseInt(remark.view);
+    }
+  });
+
+  return total.toString();
+};
+// get total number of  article_link 
+export const getTotaFacebookLink = (remarks: IRemark[] | undefined): string => {
+  if (!remarks || remarks.length === 0) return '0';
+
+  let total = 0;
+  remarks.forEach(remark => {
+    if (remark.article_link) {
+      total += parseInt(remark.article_link);
     }
   });
 

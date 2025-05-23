@@ -73,6 +73,19 @@
               </div>
 
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Article Date Created (Optional)
+                </label>
+                <input v-model="formattedArticleDate" type="text" readonly
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-3" 
+                  placeholder="Article date will be fetched automatically if left blank" />
+
+              </div>
+
+
+            </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
               <button type="submit"
@@ -97,7 +110,7 @@
             <div class="flex items-center mt-2">
               <Icon icon="fluent:document-16-filled" class="h-8 w-8 text-indigo-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getTotalArticlesCount(creators)
-              }}</span>
+                }}</span>
             </div>
           </div>
 
@@ -114,7 +127,7 @@
             <div class="flex items-center mt-2">
               <Icon icon="fluent-mdl2:completed" class="h-8 w-8 text-rose-500 mr-3" />
               <span class="text-2xl font-bold text-gray-800 dark:text-white">{{ getCompletedTargetsCount(creators)
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -198,7 +211,8 @@
 
                     </button>
                   </td>
-                  <td class="py-4 px-6 font-medium dark:text-white">{{ formatTotalViews(getTotalViews(creator.remarks)) }}</td>
+                  <td class="py-4 px-6 font-medium dark:text-white">{{ formatTotalViews(getTotalViews(creator.remarks))
+                    }}</td>
                   <td class="py-4 px-6 w-40 dark:text-white">
                     <div class="flex items-center">
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mr-2">
@@ -250,6 +264,10 @@
                     <tr>
                       <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        Date Created
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Title
                       </th>
                       <th scope="col"
@@ -274,6 +292,9 @@
                     </tr>
                     <tr v-for="article in writerArticles" :key="article.id"
                       class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                        {{ formatDate(article.date_created) || 'Untitled Date' }}
+                      </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                         {{ article.title || 'Untitled Article' }}
                       </td>
@@ -445,10 +466,22 @@ const selectedCreator = ref('');
 const article_link = ref('');
 const article_title = ref('');
 const article_view = ref(0);
-
+const article_date = ref('');
 // Writers and staff data
 const creators = ref<IWriter[]>([]);
 const staffMembers = ref<Record<string, string>>({});
+
+
+// Computed value to show formatted date but keep ISO internally
+const formattedArticleDate = computed({
+  get() {
+    return article_date.value ? formatDate(article_date.value) : '';
+  },
+  set(val: string) {
+    // Optional: parse back if you want to allow editing (or skip to keep read-only)
+    article_date.value = val; // Keep raw string if you're not parsing input
+  }
+});
 
 const creatorsList = computed(() => {
   return creators.value;
@@ -528,6 +561,7 @@ const fetchArticleData = async () => {
     const articleData = response.data.data[0];
     article_title.value = articleData.title || '';
     article_view.value = articleData.views || 0;
+    article_date.value = articleData.date_created || '';
 
     Swal.fire({
       toast: true,
@@ -648,6 +682,7 @@ const addArticleData = async () => {
       title: article_title.value,
       article_link: article_link.value,
       view: article_view.value,
+      date_created: article_date.value,
       status: 'active',
       creators: selectedCreator.value
     };
@@ -667,6 +702,7 @@ const addArticleData = async () => {
     // Reset form
     article_link.value = '';
     article_title.value = '';
+    article_date.value = '';
     article_view.value = 0;
 
     // Refresh creator data
