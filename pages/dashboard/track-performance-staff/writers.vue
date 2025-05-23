@@ -765,12 +765,15 @@ const viewWriterArticles = (writerId: number) => {
   const writer = creators.value.find(c => c.id === writerId);
   if (writer) {
     selectedWriterName.value = getUserName(writer.staff) || (auth.user?.first_name + ' ' + auth.user?.last_name);
-    writerArticles.value = writer.remarks || [];
+    writerArticles.value = [...(writer.remarks || [])].sort((a, b) => {
+      return new Date(b.date_created).getTime() - new Date(a.date_created).getTime();
+    });
   }
 
   // Show the modal
   showArticlesModal.value = true;
 };
+
 
 // Add a function to close the modal
 const closeArticlesModal = () => {
